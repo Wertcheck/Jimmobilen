@@ -711,7 +711,7 @@ html[data-theme="light"] .roadmap-rail::before{ background:rgba(13,21,34,.14); }
    Animation timeline (starts when .is-open is set), calm on purpose:
      0.00s  panel fades/scales in            1.50s  arrow glows
      0.10s  logos rise in                    1.90s  Evernest gets a soft glow
-     0.35s  JIM logo is highlighted          ~2.8s  redirect (progress is JS-driven)
+     0.35s  JIM logo is highlighted          ~4.4s  redirect (progress is JS-driven, see FAST_MS/SLOW_MS in script.js)
      0.60s  golden path draws, dot travels 0.9–2.0s
    ========================================================== */
 .redirect-modal{

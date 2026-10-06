@@ -304,8 +304,8 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
   const arcLen = arc ? arc.getTotalLength() : 0;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  const FAST_MS = 1000;       // 0 → 60 %
-  const SLOW_MS = 1800;       // 60 → 85 %  (redirect happens at FAST_MS + SLOW_MS)
+  const FAST_MS = 1400;       // 0 → 60 %
+  const SLOW_MS = 3000;       // 60 → 85 %  (redirect happens at FAST_MS + SLOW_MS ≈ 4.4 s, +0.3 s to complete)
   const FINISH_MS = 280;      // → 100 % right before opening
   const DOT_START = 900, DOT_MS = 1150;
   const STATUS_DEFAULT = 'Weiterleitung läuft …';
