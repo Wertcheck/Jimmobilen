@@ -332,17 +332,6 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
 .service-more:hover span{ transform:translateX(4px); }
 html[data-theme="light"] .service-more{ color:var(--gold-ink); }
 
-/* Valuation tool (dark by default) */
-html[data-theme="light"] .valuation-tool{ background:#f4f1e9; color:var(--ink); }
-html[data-theme="light"] .valuation-tool h2{ color:var(--navy); }
-html[data-theme="light"] .valuation-lede{ color:var(--muted); }
-html[data-theme="light"] .valuation-option-accent{ background:#ffffff; border-color:#e9e3d2; }
-html[data-theme="light"] .valuation-option-accent .valuation-option-icon{ background:var(--cream); }
-html[data-theme="light"] .valuation-option-accent .valuation-option-icon svg{ color:var(--gold-ink); }
-html[data-theme="light"] .valuation-option-accent .valuation-option-tag{ color:var(--gold-ink); }
-html[data-theme="light"] .valuation-option-accent h3{ color:var(--navy); }
-html[data-theme="light"] .valuation-option-accent p{ color:var(--muted); }
-
 /* Contact (dark by default) */
 html[data-theme="light"] .contact{ background:#f4f1e9; color:var(--ink); }
 html[data-theme="light"] .contact-copy h2{ color:var(--navy); }
@@ -353,85 +342,7 @@ html[data-theme="light"] .contact-list a:hover{ color:var(--gold-ink); }
 
 @media (max-width: 900px){ .services{ padding:76px 0; } .services-grid{ grid-template-columns:1fr; max-width:480px; margin-left:auto; margin-right:auto; } }
 
-/* ==========================================================
-   VALUATION TOOL (embed-ready)
-   ========================================================== */
-.valuation-tool{ padding:110px 0; background:var(--navy); color:var(--cream); text-align:center; }
-.valuation-tool-inner{ max-width:920px; margin:0 auto; }
-.valuation-tool h2{ font-size:clamp(1.9rem,3.4vw,2.6rem); color:var(--paper); }
-.valuation-lede{ color:var(--muted-on-navy); margin-bottom:3em; }
-
-.valuation-options{ display:grid; grid-template-columns:1fr 1fr; gap:24px; text-align:left; }
-.valuation-option{
-  background:var(--paper); border:1px solid #e9e3d2; border-radius:var(--radius);
-  padding:36px 32px; box-shadow:var(--shadow); display:flex; flex-direction:column;
-  transition:transform .3s var(--ease), box-shadow .3s var(--ease);
-}
-.valuation-option:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); }
-.valuation-option-accent{ background:var(--navy-2); border-color:rgba(232,199,102,.25); }
-.valuation-option-icon{
-  width:52px; height:52px; border-radius:12px; background:var(--cream);
-  display:flex; align-items:center; justify-content:center; margin-bottom:20px;
-}
-.valuation-option-icon svg{ width:26px; height:26px; color:var(--gold-ink); }
-.valuation-option-accent .valuation-option-icon{ background:var(--navy-3); }
-.valuation-option-accent .valuation-option-icon svg{ color:var(--gold-2); }
-.valuation-option-tag{ font-size:.72rem; text-transform:uppercase; letter-spacing:.12em; font-weight:700; color:var(--gold-ink); margin-bottom:10px; }
-.valuation-option-accent .valuation-option-tag{ color:var(--gold-2); }
-.valuation-option h3{ font-size:1.3rem; margin-bottom:10px; }
-.valuation-option-accent h3{ color:var(--paper); }
-.valuation-option p{ font-size:.92rem; color:var(--muted); margin-bottom:24px; flex-grow:1; }
-.valuation-option-accent p{ color:var(--muted-on-navy); }
-.valuation-embed-placeholder{ margin-top:auto; }
-#valuationEmbed iframe{ width:100%; min-height:420px; border:0; display:block; border-radius:var(--radius-sm); }
-
-@media (max-width: 780px){
-  .valuation-options{ grid-template-columns:1fr; }
-  .valuation-option{ padding:30px 26px; }
-}
-
-/* ==========================================================
-   LISTINGS
-   ========================================================== */
-.listings{ padding:110px 0; }
-.listings .section-head{ text-align:center; max-width:640px; margin:0 auto 32px; }
-.listings .section-head h2{ font-size:clamp(1.9rem,3vw,2.4rem); }
-.listings-lede{ color:var(--muted); }
-.listings-subtlink{
-  display:inline-flex; align-items:center; gap:6px;
-  font-size:.9rem; font-weight:600; color:var(--navy); border-bottom:1px solid #e3ddcd;
-  padding-bottom:2px; transition:color .25s, border-color .25s;
-}
-.listings-subtlink span{ transition:transform .25s var(--ease); display:inline-block; }
-.listings-subtlink:hover{ color:var(--gold-ink); border-color:var(--gold-1); }
-.listings-subtlink:hover span{ transform:translateX(3px); }
-
-@media (max-width: 900px){ .listings{ padding:76px 0; } }
-
-/* ==========================================================
-   IMMOBILIEN-KATEGORIEN (Teil der Listings-Sektion)
-   ========================================================== */
-.categories-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:20px; }
-.category-card{
-  display:flex; flex-direction:column; overflow:hidden;
-  background:var(--cream); border:1px solid #e9e3d2; border-radius:var(--radius);
-  transition:transform .3s var(--ease), box-shadow .3s var(--ease);
-}
-.category-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); }
-.category-photo{ width:100%; height:150px; object-fit:cover; display:block; }
-.category-content{ display:flex; flex-direction:column; align-items:flex-start; padding:22px 22px 24px; flex-grow:1; }
-.category-card h3{ color:var(--navy); font-size:1.05rem; margin-bottom:6px; }
-.category-card p{ color:var(--muted); font-size:.85rem; margin:0 0 18px; }
-.category-link{ display:inline-flex; align-items:center; gap:6px; font-size:.84rem; font-weight:600; color:var(--gold-ink); margin-top:auto; }
-.category-link span{ transition:transform .25s var(--ease); display:inline-block; }
-.category-card:hover .category-link span{ transform:translateX(4px); }
-
-@media (max-width: 900px){
-  .categories-grid{ grid-template-columns:1fr 1fr; }
-}
-@media (max-width: 560px){
-  .categories-grid{ grid-template-columns:1fr; }
-}
+/* (section head + card system: see "SHARED SECTION HEAD & CARD SYSTEM" at the end of this file) */
 
 /* ==========================================================
    LOCATION
@@ -863,30 +774,80 @@ html[data-theme="light"] .roadmap-rail::before{ background:rgba(13,21,34,.14); }
 }
 
 /* ==========================================================
-   VALUATION CARDS — same card language as the property categories:
-   photo on top, calm text link, whole card clickable
+   SHARED SECTION HEAD & CARD SYSTEM
+   One design language for "Angebote" (property categories) and
+   "Bewertung" (online / personal). Change it here, it changes everywhere.
    ========================================================== */
-.valuation-option{ position:relative; padding:0; overflow:hidden; border-radius:var(--radius); }
-.valuation-photo{ width:100%; height:auto; aspect-ratio:2 / 1; object-fit:cover; display:block; }
-.valuation-option:not(.valuation-option-accent) .valuation-photo{ object-position:80% center; }
-.valuation-option-accent .valuation-photo{ object-position:60% center; }
-.valuation-body{ display:flex; flex-direction:column; flex-grow:1; padding:24px 26px 26px; }
-.valuation-option h3{ font-size:1.5rem; line-height:1.2; margin-bottom:8px; }
-.valuation-option p{ font-size:.92rem; line-height:1.55; margin-bottom:20px; }
 
-.valuation-link{
-  display:inline-flex; align-items:center; gap:6px; align-self:flex-start; margin-top:auto;
-  font-size:.86rem; font-weight:600; color:var(--gold-ink);
+/* ---- Section head (eyebrow · h2 · lede), identical in both sections ---- */
+.listings, .valuation-tool{ padding:110px 0; }
+.listings .section-head,
+.valuation-tool .section-head{ text-align:center; max-width:640px; margin:0 auto 40px; }
+.listings .section-head h2,
+.valuation-tool .section-head h2{ font-size:clamp(1.9rem,3vw,2.4rem); max-width:none; margin:0 auto .45em; }
+.listings .section-head h2,
+.valuation-tool .section-head h2{ text-wrap:balance; }   /* no single orphaned word on the last line */
+.section-lede{ color:var(--muted); margin:0 auto; max-width:54ch; text-wrap:pretty; }
+.listings-subtlink{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:.9rem; font-weight:600; color:var(--navy); border-bottom:1px solid #e3ddcd;
+  padding-bottom:2px; transition:color .25s, border-color .25s;
 }
-.valuation-link span{ display:inline-block; transition:transform .25s var(--ease); }
-.valuation-option:hover .valuation-link span{ transform:translateX(4px); }
-.valuation-link::after{ content:''; position:absolute; inset:0; }   /* stretched link: whole card is clickable */
-.valuation-option-accent .valuation-link{ color:var(--gold-2); }
-html[data-theme="light"] .valuation-option-accent .valuation-link{ color:var(--gold-ink); }
+.listings-subtlink span{ transition:transform .25s var(--ease); display:inline-block; }
+.listings-subtlink:hover{ color:var(--gold-ink); border-color:var(--gold-1); }
+.listings-subtlink:hover span{ transform:translateX(3px); }
 
+.valuation-tool{ background:var(--navy); color:var(--cream); }
+.valuation-tool .section-head h2{ color:var(--paper); }
+.valuation-tool .section-lede{ color:var(--muted-on-navy); }
+html[data-theme="light"] .valuation-tool{ background:#f4f1e9; color:var(--ink); }
+html[data-theme="light"] .valuation-tool .section-head h2{ color:var(--navy); }
+html[data-theme="light"] .valuation-tool .section-lede{ color:var(--muted); }
+html[data-theme="light"] .valuation-tool .eyebrow-light{ color:var(--gold-ink); }   /* readable on the cream section */
+
+/* ---- Grids: layout only (the cards themselves are .card) ---- */
+.card-grid{ display:grid; gap:20px; }
+.categories-grid{ grid-template-columns:repeat(4, 1fr); }
+.valuation-options{ grid-template-columns:repeat(2, 1fr); max-width:920px; margin:0 auto; }
+
+/* ---- Card ---- */
+.card{
+  position:relative; display:flex; flex-direction:column; overflow:hidden;
+  background:var(--cream); border:1px solid #e9e3d2; border-radius:var(--radius);
+  transition:opacity .7s var(--ease), transform .45s var(--ease), box-shadow .35s var(--ease);
+}
+.card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+html[data-theme="light"] .valuation-tool .card{ background:#ffffff; }   /* card must stand out from the cream section */
+
+/* Photo: every card uses the same frame, only the focal point differs (--pos) */
+.card-media{ aspect-ratio:1.9 / 1; overflow:hidden; background:var(--cream-2); }
+.card-photo{
+  width:100%; height:100%; display:block; object-fit:cover; object-position:var(--pos, 50% 50%);
+  transition:transform .6s var(--ease);
+}
+.card:hover .card-photo{ transform:scale(1.04); }
+
+.card-body{ display:flex; flex-direction:column; align-items:flex-start; flex:1; padding:22px 22px 24px; }
+.card-title{ font-size:1.2rem; line-height:1.2; color:var(--navy); margin:0 0 8px; }
+.card-text{ font-size:.9rem; line-height:1.55; color:var(--muted); margin:0 0 20px; }
+.card-action{ margin-top:auto; }
+#valuationEmbed iframe{ width:100%; min-height:420px; border:0; display:block; border-radius:var(--radius-sm); }
+
+/* Quiet text link; its ::after stretches over the card so the whole card is clickable */
+.card-link{ display:inline-flex; align-items:center; gap:6px; font-size:.86rem; font-weight:600; color:var(--gold-ink); }
+.card-link::after{ content:''; position:absolute; inset:0; }
+.card-link span{ display:inline-block; transition:transform .25s var(--ease); }
+.card:hover .card-link span{ transform:translateX(4px); }
+
+/* ---- Responsive: same breakpoints for both sections ---- */
+@media (max-width: 900px){
+  .listings, .valuation-tool{ padding:76px 0; }
+  .card-grid{ gap:16px; }
+  .categories-grid{ grid-template-columns:1fr 1fr; }
+}
 @media (max-width: 780px){
-  .valuation-options{ gap:16px; }
-  .valuation-body{ padding:22px 22px 24px; }
-  .valuation-option h3{ font-size:clamp(1.3rem, 5.8vw, 1.5rem); }
-  .valuation-option p{ font-size:.9rem; }
+  .valuation-options{ grid-template-columns:1fr; }
+}
+@media (max-width: 560px){
+  .categories-grid{ grid-template-columns:1fr; }
 }

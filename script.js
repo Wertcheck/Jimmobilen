@@ -185,7 +185,7 @@ document.querySelectorAll('.service-card').forEach((card) => {
 
 // ---------- Scroll reveal — one restrained pattern, staggered ----------
 const revealTargets = document.querySelectorAll(
-  '.about-photo, .about-copy, .service-card, .roadmap-step, .category-card, .location-copy, .location-stats, .valuation-option, .faq-item, .contact-copy, .contact-form'
+  '.about-photo, .about-copy, .service-card, .roadmap-step, .card, .location-copy, .location-stats, .faq-item, .contact-copy, .contact-form'
 );
 revealTargets.forEach((el, i) => {
   el.setAttribute('data-reveal', '');
@@ -197,6 +197,8 @@ const io = new IntersectionObserver((entries) => {
     if (entry.isIntersecting) {
       entry.target.classList.add('is-visible');
       io.unobserve(entry.target);
+      // the stagger delay is only for the entrance — clear it so hover transitions stay snappy
+      setTimeout(() => { entry.target.style.transitionDelay = ''; }, 1000);
     }
   });
 }, { threshold: 0.12 });
