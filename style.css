@@ -1080,3 +1080,18 @@ html[data-theme="light"] .valuation-tool .card{ background:#ffffff; }   /* card 
 /* Booking: taken times */
 .booking-slot.is-taken{ background:transparent; border-color:#ece6d6; color:#b4b8c0; text-decoration:line-through; cursor:default; transform:none; }
 .booking-slot.is-taken:hover{ background:transparent; border-color:#ece6d6; transform:none; }
+
+/* ==========================================================
+   FOOTER SOCIAL ICONS
+   ========================================================== */
+.footer-social{ display:flex; gap:10px; }
+.footer-social[hidden], .social-link[hidden]{ display:none; }
+.social-link{
+  display:flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:100%;
+  color:var(--gold-2); background:rgba(247,244,238,.06); border:1px solid rgba(232,199,102,.2);
+  transition:background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease);
+}
+.social-link svg{ width:20px; height:20px; }
+.social-link:hover{ background:var(--gold-line); color:var(--navy); border-color:transparent; transform:translateY(-2px); }
+html[data-theme="light"] .social-link{ color:var(--gold-ink); background:rgba(13,21,34,.04); border-color:#e7e2d0; }
+html[data-theme="light"] .social-link:hover{ background:var(--gold-line); color:var(--navy); }

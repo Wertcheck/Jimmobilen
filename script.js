@@ -743,3 +743,15 @@ form?.addEventListener('submit', (e) => {
 
   render();
 })();
+
+// ---------- Footer: social links (shown only when an https:// address is set in index.html) ----------
+document.querySelectorAll('.social-link[data-url]').forEach((a) => {
+  const url = (a.dataset.url || '').trim();
+  if (!/^https:\/\//i.test(url)) return;
+  a.href = url;
+  a.setAttribute('aria-label', `${a.dataset.social} (öffnet in neuem Tab)`);
+  a.hidden = false;
+});
+document.querySelectorAll('.footer-social').forEach((ul) => {
+  if (!ul.querySelector('.social-link:not([hidden])')) ul.hidden = true;
+});
