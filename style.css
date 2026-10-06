@@ -883,9 +883,7 @@ html[data-theme="light"] .roadmap-rail::before{ background:rgba(13,21,34,.14); }
 .btn-gold.btn-iconed .btn-icon-r{ color:var(--navy); }
 
 @media (max-width: 780px){
-  .valuation-tool-inner{ padding-left:12px; padding-right:12px; }   /* wider cards on phones */
   .valuation-options{ gap:16px; }
-  .valuation-tool .valuation-tool-inner > :not(.valuation-options){ padding-left:8px; padding-right:8px; }
   .valuation-body{ padding:24px 24px 26px; }
   .valuation-option h3{ font-size:clamp(1.55rem, 7vw, 1.9rem); }
   .valuation-option p{ font-size:.98rem; line-height:1.55; }
