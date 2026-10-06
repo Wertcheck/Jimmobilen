@@ -912,7 +912,8 @@ html[data-theme="light"] .valuation-tool .eyebrow-light{ color:var(--gold-ink); 
 /* ---- Card ---- */
 .card{
   position:relative; display:flex; flex-direction:column; overflow:hidden;
-  background:var(--cream); border:1px solid #e9e3d2; border-radius:var(--radius);
+  background:var(--cream); border:0; border-radius:var(--radius); isolation:isolate;   /* no border: photos run edge to edge */
+  box-shadow:0 1px 2px rgba(13,21,34,.05), 0 14px 30px -22px rgba(13,21,34,.28);
   transition:opacity .7s var(--ease), transform .45s var(--ease), box-shadow .35s var(--ease);
 }
 .card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); }
