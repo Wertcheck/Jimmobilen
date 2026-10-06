@@ -34,12 +34,6 @@ if (rootEl.getAttribute('data-theme') === 'light') {
 
   let lastFocused = null;
 
-  // Card footers show how many steps the service has — read from the same data as the modal
-  document.querySelectorAll('[data-steps-for]').forEach((el) => {
-    const n = (details[el.dataset.stepsFor]?.steps || []).length;
-    if (n) el.textContent = `${n} Schritte`;
-  });
-
   const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (c) => (
     { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
   ));
