@@ -1095,3 +1095,8 @@ html[data-theme="light"] .valuation-tool .card{ background:#ffffff; }   /* card 
 .social-link:hover{ background:var(--gold-line); color:var(--navy); border-color:transparent; transform:translateY(-2px); }
 html[data-theme="light"] .social-link{ color:var(--gold-ink); background:rgba(13,21,34,.04); border-color:#e7e2d0; }
 html[data-theme="light"] .social-link:hover{ background:var(--gold-line); color:var(--navy); }
+
+/* Social icons inside the contact list */
+.contact-social-item[hidden]{ display:none; }
+.contact-social{ display:flex; gap:10px; margin-top:6px; }
+.contact-social-item .social-link{ width:42px; height:42px; }

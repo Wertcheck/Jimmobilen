@@ -744,14 +744,23 @@ form?.addEventListener('submit', (e) => {
   render();
 })();
 
-// ---------- Footer: social links (shown only when an https:// address is set in index.html) ----------
-document.querySelectorAll('.social-link[data-url]').forEach((a) => {
-  const url = (a.dataset.url || '').trim();
-  if (!/^https:\/\//i.test(url)) return;
-  a.href = url;
-  a.setAttribute('aria-label', `${a.dataset.social} (öffnet in neuem Tab)`);
-  a.hidden = false;
-});
-document.querySelectorAll('.footer-social').forEach((ul) => {
-  if (!ul.querySelector('.social-link:not([hidden])')) ul.hidden = true;
-});
+// ---------- Social links (footer + contact) ----------
+// Addresses are entered once, in the footer (data-url in index.html); the contact block reuses them.
+// A link / row is shown only when an https:// address exists.
+(function initSocial() {
+  const urls = {};
+  document.querySelectorAll('.social-link[data-url]').forEach((a) => {
+    const url = (a.dataset.url || '').trim();
+    if (/^https:\/\//i.test(url)) urls[a.dataset.social] = url;
+  });
+  document.querySelectorAll('.social-link').forEach((a) => {
+    const url = urls[a.dataset.social];
+    if (!url) return;
+    a.href = url;
+    a.setAttribute('aria-label', `${a.dataset.social} (öffnet in neuem Tab)`);
+    a.hidden = false;
+  });
+  document.querySelectorAll('.footer-social, .contact-social-item').forEach((el) => {
+    el.hidden = !el.querySelector('.social-link:not([hidden])');
+  });
+})();
