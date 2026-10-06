@@ -170,7 +170,7 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
 @media (max-width: 980px){
   .header-inner{ height:72px; }
   .wrap{ padding:0 20px; }
-  .hero{ padding-top:18px; padding-bottom:22px; overflow:hidden; }
+  .hero{ padding-top:16px; padding-bottom:16px; overflow:hidden; }
   .hero-skyline{ display:none; }
   .nowrap{ white-space:nowrap; }
 
@@ -186,6 +186,7 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
       "lede    photo"
       "ctas    ctas"
       "badges  badges";
+    grid-template-rows:auto auto 1fr auto auto;  /* spare height goes below the intro, not between headline and intro */
     gap:0; align-items:start;
   }
   .hero-copy{ display:contents; }
@@ -196,13 +197,13 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
   }
   .hero-lede{
     grid-area:lede; position:relative; z-index:2;
-    font-size:.9rem; line-height:1.5; max-width:none; margin:0;
+    font-size:.86rem; line-height:1.45; max-width:none; margin:0;
   }
   .hero-ctas{
     grid-area:ctas; position:relative; z-index:2;
-    flex-direction:column; align-items:stretch; gap:10px; margin:18px 0 0;
+    flex-direction:column; align-items:stretch; gap:10px; margin:14px 0 0;
   }
-  .hero-ctas .btn{ width:100%; text-align:center; padding:14px 24px; font-size:.95rem; }
+  .hero-ctas .btn{ width:100%; text-align:center; padding:12px 24px; font-size:.95rem; }
 
   /* Portrait: sits in the right column but is wider than it, bleeding to
      the screen edge and ending right above the buttons. */
@@ -216,7 +217,7 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
   .trust-badges{
     grid-area:badges; position:relative; z-index:2;
     display:flex; flex-direction:row; justify-content:space-between; align-items:center;
-    gap:12px; margin-top:20px; padding-top:16px; border-top:1px solid rgba(232,199,102,.14);
+    gap:12px; margin-top:16px; padding-top:12px; border-top:1px solid rgba(232,199,102,.14);
   }
   .trust-badges .badge{ flex:1; min-width:0; gap:10px; }
   .trust-badges .badge svg{ width:26px; height:26px; }
