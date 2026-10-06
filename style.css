@@ -442,10 +442,10 @@ html[data-theme="light"] .faq{ border-top-color:#e7e2d0; }
 .footer-partner{ display:flex; align-items:center; gap:12px; }
 .footer-partner span{ font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted-on-navy); }
 .footer-partner-badge{
-  display:inline-flex; align-items:center; background:#0a0a0a; border-radius:5px;
-  padding:6px 12px; transition:opacity .2s;
+  display:inline-flex; align-items:center; background:#0a0a0a; border-radius:4px; overflow:hidden;
+  padding:0; transition:opacity .2s;   /* the logo image already contains its black rectangle */
 }
-.footer-partner-logo{ height:14px; display:block; }
+.footer-partner-logo{ height:44px; width:auto; display:block; }
 .footer-partner-badge:hover{ opacity:.85; }
 .footer-nav a{ color:var(--muted-on-navy); font-size:.85rem; }
 .footer-nav a:hover{ color:var(--gold-2); }
