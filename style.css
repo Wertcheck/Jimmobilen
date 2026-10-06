@@ -170,15 +170,16 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
 @media (max-width: 980px){
   .header-inner{ height:72px; }
   .wrap{ padding:0 20px; }
-  .hero{ padding-top:24px; padding-bottom:28px; overflow:hidden; }
+  .hero{ padding-top:18px; padding-bottom:22px; overflow:hidden; }
   .hero-skyline{ display:none; }
+  .nowrap{ white-space:nowrap; }
 
   /* Mobile hero: the children of .hero-copy join the grid directly, so the
      portrait can sit beside headline + intro while buttons and badges run
      full width underneath (matches the reference design). */
   .hero-grid{
     display:grid;
-    grid-template-columns:minmax(0,54%) minmax(0,1fr);
+    grid-template-columns:minmax(0,50%) minmax(0,1fr);
     grid-template-areas:
       "eyebrow eyebrow"
       "title   photo"
@@ -188,26 +189,26 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
     gap:0; align-items:start;
   }
   .hero-copy{ display:contents; }
-  .hero-copy .eyebrow{ grid-area:eyebrow; font-size:.72rem; letter-spacing:.12em; margin-bottom:14px; }
+  .hero-copy .eyebrow{ grid-area:eyebrow; font-size:.7rem; letter-spacing:.12em; line-height:1.4; margin-bottom:12px; }
   .hero-copy h1{
     grid-area:title; position:relative; z-index:2;
-    font-size:clamp(1.6rem, 7.8vw, 2.4rem); line-height:1.08; max-width:none; margin-bottom:.45em;
+    font-size:clamp(1.55rem, 7.3vw, 2.3rem); line-height:1.08; max-width:none; margin-bottom:.4em;
   }
   .hero-lede{
     grid-area:lede; position:relative; z-index:2;
-    font-size:.95rem; line-height:1.55; max-width:none; margin:0;
+    font-size:.9rem; line-height:1.5; max-width:none; margin:0;
   }
   .hero-ctas{
     grid-area:ctas; position:relative; z-index:2;
-    flex-direction:column; align-items:stretch; gap:12px; margin:26px 0 0;
+    flex-direction:column; align-items:stretch; gap:10px; margin:18px 0 0;
   }
-  .hero-ctas .btn{ width:100%; text-align:center; }
+  .hero-ctas .btn{ width:100%; text-align:center; padding:14px 24px; font-size:.95rem; }
 
   /* Portrait: sits in the right column but is wider than it, bleeding to
      the screen edge and ending right above the buttons. */
   .hero-photo{
     grid-area:photo; align-self:end; justify-self:end;
-    width:178%; margin-right:-40%; z-index:1; pointer-events:none;
+    width:168%; margin-right:-43%; z-index:1; pointer-events:none;
     transform:none !important;
   }
   .hero-photo img{ width:100%; height:auto; filter:drop-shadow(0 14px 24px rgba(0,0,0,.4)); }
@@ -215,11 +216,11 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
   .trust-badges{
     grid-area:badges; position:relative; z-index:2;
     display:flex; flex-direction:row; justify-content:space-between; align-items:center;
-    gap:12px; margin-top:28px; padding-top:20px; border-top:1px solid rgba(232,199,102,.14);
+    gap:12px; margin-top:20px; padding-top:16px; border-top:1px solid rgba(232,199,102,.14);
   }
-  .trust-badges .badge{ flex:1; min-width:0; }
-  .trust-badges .badge svg{ width:30px; height:30px; }
-  .trust-badges .badge span{ font-size:.74rem; line-height:1.35; }
+  .trust-badges .badge{ flex:1; min-width:0; gap:10px; }
+  .trust-badges .badge svg{ width:26px; height:26px; }
+  .trust-badges .badge span{ font-size:.7rem; line-height:1.35; }
 }
 
 /* ==========================================================
