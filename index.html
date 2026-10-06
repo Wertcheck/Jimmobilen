@@ -1,19 +1,612 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jimmobilen</title>
-  <style>
-    body { font-family: system-ui, sans-serif; margin: 0; display: grid; place-items: center; min-height: 100vh; background: #f5f5f2; color: #222; }
-    main { text-align: center; padding: 16px; }
-    h1 { margin-bottom: 0.25em; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jim-Rico Krüger — Immobilienberater in Berlin</title>
+<meta name="description" content="Jim-Rico Krüger, geprüfter Immobilienkaufmann (IHK) — selbstständiger Immobilienberater in Berlin. Persönliche Beratung, ehrliche Bewertung, klare Prozesse.">
+<meta name="theme-color" content="#0b1b2b">
+<meta property="og:title" content="Jim-Rico Krüger — Immobilienberater in Berlin">
+<meta property="og:description" content="Persönlich. Kompetent. Zuhause. Beratung in Berlin.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>
+  // Apply saved theme before paint to avoid a flash of the wrong theme
+  (function(){
+    try {
+      var saved = localStorage.getItem('jim-theme');
+      if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    } catch (e) {
+      // localStorage can be blocked on file:// pages in some browsers — safe to ignore
+    }
+  })();
+</script>
 </head>
 <body>
-  <main>
-    <h1>Jimmobilen</h1>
-    <p>Beispielseite – die Live-Vorschau funktioniert.</p>
-  </main>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a href="#top" class="brand" aria-label="JIM MOBILIEN — Startseite">
+      <img src="assets/logo-v2-trimmed.png" alt="JIM MOBILIEN — by Jim Krüger" class="brand-logo logo-light">
+      <img src="assets/logo-v2-dark-official.png" alt="JIM MOBILIEN — by Jim Krüger" class="brand-logo logo-dark">
+    </a>
+    <div class="header-actions">
+      <a href="tel:+4930000000" class="header-phone" aria-label="Anrufen: 030 / 000 000">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4.1c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1L6.6 10.8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Zwischen hellem und dunklem Design wechseln" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1M18.4 18.4l-2.1-2.1M7.7 7.7 5.6 5.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+      </button>
+      <a href="#kontakt" class="btn btn-gold" aria-label="Termin anfragen">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span class="btn-gold-label">Termin anfragen</span>
+      </a>
+      <button class="menu-toggle-btn" id="navToggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mainNav">
+        <span class="menu-toggle-lines"><span></span><span></span><span></span></span>
+        <span class="menu-toggle-label">Menü</span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="main-nav" id="mainNav" aria-label="Hauptnavigation">
+    <a href="#immobilien">Immobilien</a>
+    <a href="#bewertung">Bewertung</a>
+    <a href="#ueber-mich">Über mich</a>
+    <a href="#standort">Standort</a>
+    <a href="#leistungen">Leistungen</a>
+    <a href="#ablauf">Ablauf</a>
+    <a href="#faq">FAQ</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-grain" aria-hidden="true"></div>
+  <div class="hero-skyline" aria-hidden="true">
+    <svg viewBox="0 0 1440 260" preserveAspectRatio="none"><path d="M0,260 L0,180 L60,180 L60,140 L120,140 L120,190 L180,190 L180,110 L200,110 L200,80 L220,80 L220,110 L240,110 L240,190 L300,190 L300,150 L360,150 L360,200 L420,200 L420,120 L440,120 L440,90 L460,90 L460,120 L480,120 L480,200 L540,200 L540,160 L600,160 L600,210 L660,210 L660,100 L680,100 L680,70 L700,70 L700,100 L720,100 L720,210 L780,210 L780,170 L840,170 L840,220 L900,220 L900,130 L920,130 L920,95 L940,95 L940,130 L960,130 L960,220 L1020,220 L1020,180 L1080,180 L1080,230 L1140,230 L1140,140 L1160,140 L1160,105 L1180,105 L1180,140 L1200,140 L1200,230 L1260,230 L1260,190 L1320,190 L1320,240 L1380,240 L1380,200 L1440,200 L1440,260 Z" fill="currentColor"/></svg>
+  </div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow" data-hero-in>Immobilienberater in Berlin</p>
+      <h1 data-hero-in>Ihre Immobilie verdient <em><span class="rotate-word" id="rotateWord">Struktur</span></em>, keine Zufälle.</h1>
+      <p class="hero-lede" data-hero-in>Geprüfter Immobilienkaufmann (IHK) und selbstständiger Berater. Ehrliche Einschätzungen, saubere Prozesse, persönliche Betreuung vom ersten Gespräch bis zum Notartermin.</p>
+      <div class="hero-ctas" data-hero-in>
+        <a href="#bewertung" class="btn btn-gold btn-lg">Immobilie kostenlos bewerten</a>
+        <a href="#ueber-mich" class="btn btn-ghost btn-lg">Mehr über mich</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="assets/jim-cutout-v3.png" alt="Jim-Rico Krüger, Immobilienberater in Berlin" width="995" height="1296" class="logo-light">
+      <img src="assets/jim-cutout-v4-light.png" alt="Jim-Rico Krüger, Immobilienberater in Berlin" width="995" height="1296" class="logo-dark">
+    </div>
+    <div class="trust-badges" data-hero-in>
+      <div class="badge">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m8.5 12 2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>IHK-geprüfter<br>Immobilienkaufmann</span>
+      </div>
+      <div class="badge">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V9l8-5 8 5v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-7h6v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span>Evernest<br>Vertragspartner</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMMOBILIENSUCHE / VERLINKUNG ============ -->
+<section class="listings" id="immobilien">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Aktuelle Angebote</p>
+      <h2>Wonach suchen Sie?</h2>
+      <p class="listings-lede">Direkt gefiltert zur passenden Kategorie auf meinem Evernest-Maklerprofil — oder <a href="https://www.evernest.com/de/unsere-makler/berlin/jim-rico-krueger/" target="_blank" rel="noopener" class="evernest-link listings-subtlink">alle meine Angebote auf einen Blick <span aria-hidden="true">→</span></a></p>
+    </div>
+
+    <div class="categories-grid">
+      <a href="https://www.evernest.com/de/search/?lat=52.5170365&lng=13.3888599&zoom=10&hideSold=true" target="_blank" rel="noopener" class="category-card evernest-link">
+        <img src="assets/category-wohnungen.jpg" alt="" class="category-photo">
+        <div class="category-content">
+          <h3>Wohnungen</h3>
+          <p>Eigentumswohnungen zur Eigennutzung oder als Kapitalanlage.</p>
+          <span class="category-link">Angebote ansehen <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <a href="https://www.evernest.com/de/search/?lat=52.5170365&lng=13.3888599&zoom=10&propertyTypes=house&hideSold=true" target="_blank" rel="noopener" class="category-card evernest-link">
+        <img src="assets/category-haeuser.jpg" alt="" class="category-photo">
+        <div class="category-content">
+          <h3>Häuser</h3>
+          <p>Ein- und Mehrfamilienhäuser für den eigenen Lebensmittelpunkt.</p>
+          <span class="category-link">Angebote ansehen <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <a href="https://www.evernest.com/de/search/?lat=52.5170365&lng=13.3888599&zoom=10&hideSold=true&propertyTypes=investment" target="_blank" rel="noopener" class="category-card evernest-link">
+        <img src="assets/category-anlageobjekte.jpg" alt="" class="category-photo">
+        <div class="category-content">
+          <h3>Anlageobjekte</h3>
+          <p>Kapitalanlagen mit Renditepotenzial.</p>
+          <span class="category-link">Angebote ansehen <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <a href="https://www.evernest.com/de/search/?lat=52.5170365&lng=13.3888599&zoom=10&hideSold=true&propertyTypes=investment%2Cplot" target="_blank" rel="noopener" class="category-card evernest-link">
+        <img src="assets/category-grundstueck.jpg" alt="" class="category-photo">
+        <div class="category-content">
+          <h3>Grundstücke</h3>
+          <p>Bauplätze und Grundstücke für Ihr eigenes Projekt.</p>
+          <span class="category-link">Angebote ansehen <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEWERTUNG: ONLINE ODER PERSÖNLICH ============ -->
+<section class="valuation-tool" id="bewertung">
+  <div class="wrap valuation-tool-inner">
+    <p class="eyebrow eyebrow-light">Kostenlos &amp; unverbindlich</p>
+    <h2>Was ist Ihre Immobilie wert?</h2>
+    <p class="valuation-lede">Wählen Sie den Weg, der zu Ihnen passt — beide führen zu einer fundierten Einschätzung.</p>
+
+    <div class="valuation-options">
+
+      <!-- Option 1: Online-Bewertung -->
+      <div class="valuation-option">
+        <h3>Online-Bewertung</h3>
+        <p>Schnelle, erste Einschätzung in wenigen Minuten — bequem von zu Hause, ganz ohne Termin.</p>
+
+        <!--
+          ================================================================
+          EINBINDUNG BEWERTUNGSTOOL
+          Hier den Embed-/iFrame-Code deines kostenlosen Online-Bewertungs-
+          tools einfügen (z.B. von Sprengnetter, McMakler, PriceHubble o.ä.).
+          Einfach das valuationEmbed-div Innere ersetzen, z.B. mit einem
+          iframe-Tag. Bis dahin verlinkt der Button zur Evernest-Bewertung.
+          ================================================================
+        -->
+        <div id="valuationEmbed" class="valuation-embed-placeholder">
+          <a href="https://www.evernest.com/de/bewertung/address/" target="_blank" rel="noopener" class="btn btn-outline btn-block evernest-link">Online-Bewertung starten</a>
+        </div>
+      </div>
+
+      <!-- Option 2: Persönlicher Termin -->
+      <div class="valuation-option valuation-option-accent">
+        <h3>Persönlicher Termin</h3>
+        <p>Vor-Ort-Besichtigung mit individueller Einschätzung — inklusive Markteinordnung und direktem Austausch.</p>
+        <a href="#kontakt" class="btn btn-gold btn-block">Termin vereinbaren</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ÜBER MICH ============ -->
+<section class="about" id="ueber-mich">
+  <div class="wrap about-grid">
+    <div class="about-photo-col">
+      <figure class="about-photo about-photo-backdrop reveal-wipe">
+        <img src="assets/jim-about-transparent.png" alt="Jim-Rico Krüger, geprüfter Immobilienkaufmann IHK">
+      </figure>
+      <blockquote class="about-quote">
+        <span class="quote-mark" aria-hidden="true">"</span>
+        Vertrauen ist die Basis jeder Entscheidung.
+        <cite>— Jim-Rico Krüger</cite>
+      </blockquote>
+      <div class="joint-venture">
+        <div class="joint-venture-panel joint-venture-panel-jim">
+          <img src="assets/logo-v2-trimmed.png" alt="JIM MOBILIEN">
+        </div>
+        <span class="joint-venture-x" aria-hidden="true">×</span>
+        <div class="joint-venture-panel joint-venture-panel-evernest">
+          <img src="assets/evernest-logo-light.png" alt="Evernest">
+        </div>
+      </div>
+    </div>
+    <div class="about-copy">
+      <p class="eyebrow">Über mich</p>
+      <h2>Klarheit ist der beste Service, den ich bieten kann.</h2>
+      <p>Als selbstständiger Immobilienberater und geprüfter Immobilienkaufmann (IHK) verbinde ich fundierte Fachkenntnis in Verkauf, Bewertung und Marktanalyse mit einer strukturierten, transparenten Arbeitsweise. Als Vertragspartner von Evernest, einem der führenden PropTech-Unternehmen Deutschlands, greife ich zusätzlich auf ein breites Netzwerk und professionelle Markttechnologie zurück — verbunden mit persönlicher, unabhängiger Beratung vor Ort.</p>
+      <a href="#kontakt" class="btn btn-gold">Persönliches Gespräch vereinbaren</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STANDORT ============ -->
+<section class="location" id="standort">
+  <div class="location-bg" aria-hidden="true">
+    <img src="assets/charlottenburg-street.jpg" alt="">
+  </div>
+  <div class="wrap location-grid">
+    <div class="location-copy">
+      <p class="eyebrow eyebrow-light">Vor Ort in</p>
+      <h2>Berlin</h2>
+      <p>Von Charlottenburg als meinem Ausgangspunkt aus berate ich Sie in ganz Berlin — ob Altbauwohnung in Schöneberg, Einfamilienhaus im Speckgürtel oder Kapitalanlage in Friedrichshain. Die Stadt ist vielfältig, und genau diese Vielfalt bringe ich in jede Beratung mit ein.</p>
+      <p>Kurze Wege, ein wachsendes Netzwerk und die Bereitschaft, für jede Lage die passende Marktkenntnis aufzubauen — das macht meine Arbeit als Makler in Berlin aus.</p>
+      <div class="location-stats">
+        <div class="loc-stat"><span>Berlin</span>Mein Vermarktungsgebiet</div>
+        <div class="loc-stat"><span>Charlottenburg</span>Mein Ausgangspunkt</div>
+        <div class="loc-stat"><span>IHK</span>Geprüfte Fachkompetenz</div>
+      </div>
+    </div>
+    <div class="location-map-frame">
+      <iframe
+        class="location-map"
+        title="Google Maps: Charlottenburg, Berlin"
+        src="https://www.google.com/maps?q=Charlottenburg,Berlin&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEISTUNGEN ============ -->
+<section class="services" id="leistungen">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Meine Leistungen</p>
+      <h2>Kaufen &amp; verkaufen — ohne loses Ende.</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <h3>Immobilienbewertung</h3>
+        <p>Eine realistische, marktgerechte Einschätzung als solide Grundlage für jede Entscheidung — kostenlos und unverbindlich.</p>
+        <button type="button" class="service-more" data-service="bewertung">
+          Mehr erfahren <span aria-hidden="true">→</span>
+        </button>
+      </div>
+      <div class="service-card">
+        <h3>Verkauf</h3>
+        <p>Von der Vermarktung bis zum Notartermin: strukturiert, transparent, mit Fokus auf den bestmöglichen Preis.</p>
+        <button type="button" class="service-more" data-service="verkauf">
+          Mehr erfahren <span aria-hidden="true">→</span>
+        </button>
+      </div>
+      <div class="service-card">
+        <h3>Kaufberatung</h3>
+        <p>Zielgerichtete Objektsuche, ehrliche Einschätzung von Substanz und Preis, Begleitung bei Besichtigung und Verhandlung.</p>
+        <button type="button" class="service-more" data-service="kaufberatung">
+          Mehr erfahren <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEISTUNGEN: DETAIL-MODAL ============ -->
+<div class="service-modal" id="serviceModal" aria-hidden="true">
+  <div class="service-modal-backdrop" data-close-modal></div>
+  <div class="service-modal-panel" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
+    <button type="button" class="service-modal-close" data-close-modal aria-label="Schließen">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <div class="service-modal-body" id="serviceModalBody">
+      <!-- Content injected by script.js from the serviceDetails data below -->
+    </div>
+  </div>
+</div>
+
+<!-- Detail content for the service modal — edit text here -->
+<script type="application/json" id="serviceDetailsData">
+{
+  "bewertung": {
+    "eyebrow": "Leistung 01",
+    "title": "Immobilienbewertung",
+    "intro": "Eine realistische Werteinschätzung ist die Grundlage jeder guten Entscheidung — ob Sie verkaufen, vererben, umschulden oder einfach nur wissen möchten, woran Sie sind.",
+    "steps": [
+      {
+        "title": "Objekt- und Lageanalyse",
+        "text": "Baujahr, Zustand, Ausstattung, Mikrolage und Infrastruktur fließen in die Einschätzung ein."
+      },
+      {
+        "title": "Vergleichswertanalyse",
+        "text": "Aktuelle Verkaufs- und Angebotspreise vergleichbarer Objekte in Berlin, gestützt auf Evernest-Marktdaten."
+      },
+      {
+        "title": "Marktgerechte Einordnung",
+        "text": "Sie erhalten eine ehrliche Preisspanne — ohne künstlich hohe Zahlen, um den Auftrag zu gewinnen."
+      },
+      {
+        "title": "Persönliches Ergebnisgespräch",
+        "text": "Die Einschätzung wird Ihnen erklärt, nicht nur zugeschickt — inklusive Einordnung in den aktuellen Markt."
+      }
+    ],
+    "cta": {
+      "text": "Jetzt kostenlos bewerten lassen",
+      "href": "#bewertung"
+    }
+  },
+  "verkauf": {
+    "eyebrow": "Leistung 02",
+    "title": "Verkauf",
+    "intro": "Vom ersten Gespräch bis zur Schlüsselübergabe begleite ich Sie strukturiert durch den gesamten Verkaufsprozess — mit dem Ziel, den bestmöglichen Preis in einer realistischen Zeitspanne zu erzielen.",
+    "steps": [
+      {
+        "title": "Bewertung & Strategie",
+        "text": "Realistische Preisfindung und eine auf Ihr Objekt zugeschnittene Vermarktungsstrategie."
+      },
+      {
+        "title": "Professionelle Vermarktung",
+        "text": "Hochwertige Exposés, Fotos und Reichweite über das Evernest-Netzwerk und Ihre Zielgruppe."
+      },
+      {
+        "title": "Besichtigungen & Vorauswahl",
+        "text": "Ich übernehme Anfragen, Terminplanung und eine erste Bonitätseinschätzung der Interessenten."
+      },
+      {
+        "title": "Verhandlung",
+        "text": "Zielgerichtete Preisverhandlung in Ihrem Interesse, transparent kommuniziert."
+      },
+      {
+        "title": "Notartermin & Übergabe",
+        "text": "Koordination mit dem Notar, Vertragsprüfung und Begleitung bis zur Schlüsselübergabe."
+      }
+    ],
+    "cta": {
+      "text": "Verkauf unverbindlich besprechen",
+      "href": "#kontakt"
+    }
+  },
+  "kaufberatung": {
+    "eyebrow": "Leistung 03",
+    "title": "Kaufberatung",
+    "intro": "Ob Eigennutzung oder Kapitalanlage — beim Immobilienkauf zählt eine nüchterne, ehrliche Einschätzung mehr als Emotionen. Genau die bringe ich mit.",
+    "steps": [
+      {
+        "title": "Bedarfsanalyse",
+        "text": "Lage, Budget, Zeitrahmen und Zielsetzung (Eigennutzung oder Investment) werden gemeinsam geklärt."
+      },
+      {
+        "title": "Zielgerichtete Objektsuche",
+        "text": "Zugriff auf das gesamte Evernest-Angebot statt nur einzelne Inserate."
+      },
+      {
+        "title": "Besichtigung & Substanzprüfung",
+        "text": "Ehrliche Einschätzung von Bausubstanz, Renovierungsbedarf und realistischem Wert."
+      },
+      {
+        "title": "Verhandlung",
+        "text": "Faktenbasierte Preisverhandlung statt Bauchgefühl."
+      },
+      {
+        "title": "Notartermin",
+        "text": "Begleitung bei Vertragsprüfung und Notartermin, bis der Schlüssel in Ihrer Hand liegt."
+      }
+    ],
+    "cta": {
+      "text": "Kaufwunsch besprechen",
+      "href": "#kontakt"
+    }
+  }
+}
+</script>
+
+<!-- ============ ABLAUF / ROADMAP ============ -->
+<section class="roadmap" id="ablauf">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow eyebrow-light">Der Ablauf</p>
+      <h2>Vier Schritte vom ersten Kontakt<br>zum Ergebnis.</h2>
+    </div>
+    <div class="roadmap-rail" id="roadmapRail">
+      <div class="roadmap-progress-line" id="roadmapProgressLine"></div>
+      <div class="roadmap-step" data-reveal>
+        <div class="roadmap-node"><span>01</span></div>
+        <h3>Erstkontakt</h3>
+        <p>Kurze Nachricht oder Anruf — Sie schildern Ihr Anliegen, ich melde mich zeitnah persönlich zurück.</p>
+      </div>
+      <div class="roadmap-step" data-reveal>
+        <div class="roadmap-node"><span>02</span></div>
+        <h3>Erstgespräch</h3>
+        <p>Persönlich oder virtuell: Ziele, Zeitrahmen und die passenden nächsten Schritte werden geklärt.</p>
+      </div>
+      <div class="roadmap-step" data-reveal>
+        <div class="roadmap-node"><span>03</span></div>
+        <h3>Umsetzung</h3>
+        <p>Bewertung, Vermarktung oder Objektsuche — strukturiert, transparent und mit regelmäßigen Updates.</p>
+      </div>
+      <div class="roadmap-step" data-reveal>
+        <div class="roadmap-node"><span>04</span></div>
+        <h3>Abschluss</h3>
+        <p>Verhandlung, Notartermin, Übergabe — bis der Schlüssel in den richtigen Händen liegt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Häufige Fragen</p>
+      <h2>Gut zu wissen.</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Was kostet mich das Erstgespräch?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Nichts. Das Erstgespräch ist unverbindlich und kostenlos — genau wie die Ersteinschätzung zum Wert Ihrer Immobilie. Sie entscheiden erst danach, ob und wie Sie weitermachen möchten.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Muss ich verkaufen, wenn ich eine Bewertung anfrage?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Nein. Eine Bewertung ist zunächst reine Information für Sie — ganz ohne Verpflichtung. Viele nutzen sie auch für Erbschaften, Scheidungen oder einfach zur eigenen Orientierung.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Wie wird der Wert meiner Immobilie ermittelt?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Auf Basis aktueller Marktdaten, Vergleichsobjekten in Ihrer Lage und der Evernest-Markttechnologie — kombiniert mit meiner persönlichen Einschätzung vor Ort, die reine Online-Tools nicht leisten können.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Wie lange dauert ein Verkaufsprozess in der Regel?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Das hängt stark von Objekt, Lage und Preisvorstellung ab. Als grobe Orientierung: von der ersten Bewertung bis zum Notartermin vergehen häufig zwischen sechs und zwölf Wochen — ich gebe Ihnen im Erstgespräch eine realistische Einschätzung für Ihren konkreten Fall.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Helfen Sie auch bei der Suche als Käufer?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Ja. Ob Sie schon ein konkretes Objekt im Blick haben oder erst am Anfang Ihrer Suche stehen — ich berate Sie zu Finanzierung, Markteinschätzung und passenden Angeboten aus dem Evernest-Netzwerk.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Was unterscheidet Sie von anderen Anbietern?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Persönliche Betreuung durch eine feste Ansprechperson statt wechselnder Kontakte, ehrliche statt geschönter Einschätzungen, und der Zugang zu Evernests Technologie und Netzwerk als geprüfter Vertragspartner.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>In welchen Berliner Stadtteilen sind Sie aktiv?</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Charlottenburg ist mein Ausgangspunkt, mein Vermarktungsgebiet erstreckt sich aber über ganz Berlin. Sprechen Sie mich einfach zu Ihrer konkreten Lage an.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KONTAKT ============ -->
+<section class="contact" id="kontakt">
+  <div class="wrap contact-grid">
+    <div class="contact-copy">
+      <p class="eyebrow eyebrow-light">Kontakt</p>
+      <h2>Ich freue mich auf Ihre Nachricht.</h2>
+      <p>Ob konkretes Anliegen oder erste Frage — schreiben Sie mir, ich melde mich zeitnah persönlich zurück.</p>
+      <ul class="contact-list">
+        <li><span>Telefon</span><a href="tel:+4930000000">030 / 000 000</a></li>
+        <li><span>E-Mail</span><a href="mailto:jim.krueger@jimmobilien.de">jim.krueger@jimmobilien.de</a></li>
+        <li><span>Gebiet</span>Berlin &amp; Umgebung</li>
+      </ul>
+    </div>
+    <form class="contact-form" id="contactForm">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="fname">Vorname</label>
+          <input type="text" id="fname" name="fname" required autocomplete="given-name">
+        </div>
+        <div class="form-field">
+          <label for="lname">Nachname</label>
+          <input type="text" id="lname" name="lname" required autocomplete="family-name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="email">E-Mail</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+        </div>
+        <div class="form-field">
+          <label for="phone">Telefon</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel">
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="interest">Interessiert an</label>
+        <select id="interest" name="interest">
+          <option>Verkaufen</option>
+          <option>Kaufen</option>
+          <option>Bewertung</option>
+          <option>Sonstiges</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="message">Nachricht</label>
+        <textarea id="message" name="message" rows="4"></textarea>
+      </div>
+      <button type="submit" class="btn btn-gold btn-lg btn-block">Nachricht senden</button>
+      <p class="form-note">Mit dem Absenden stimmen Sie der Kontaktaufnahme durch Jim-Rico Krüger zu.</p>
+    </form>
+  </div>
+</section>
+
+
+
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <img src="assets/logo-v2-trimmed.png" alt="JIM MOBILIEN" class="footer-logo logo-light">
+    <img src="assets/logo-v2-dark-official.png" alt="JIM MOBILIEN" class="footer-logo logo-dark">
+    <nav class="footer-nav" aria-label="Footer-Navigation">
+      <a href="#ueber-mich">Über mich</a>
+      <a href="#leistungen">Leistungen</a>
+      <a href="#kontakt">Kontakt</a>
+      <a href="#">Impressum</a>
+      <a href="#">Datenschutz</a>
+    </nav>
+    <div class="footer-partner">
+      <span>Vertragspartner von</span>
+      <a href="https://www.evernest.com" target="_blank" rel="noopener" aria-label="Evernest — Website öffnen" class="footer-partner-badge evernest-link">
+        <img src="assets/evernest-logo-light.png" alt="Evernest" class="footer-partner-logo">
+      </a>
+    </div>
+    <p class="footer-copy">© <span id="year"></span> JIM MOBILIEN by Jim Krüger. Alle Rechte vorbehalten.</p>
+  </div>
+</footer>
+
+<!-- ============ EVERNEST-WEITERLEITUNGS-HINWEIS ============ -->
+<div class="redirect-modal" id="redirectModal" aria-hidden="true">
+  <div class="redirect-modal-backdrop" data-redirect-cancel></div>
+  <div class="redirect-modal-panel" role="dialog" aria-modal="true" aria-labelledby="redirectModalTitle">
+    <div class="redirect-modal-icon">
+      <img src="assets/evernest-logo-light.png" alt="Evernest" class="redirect-modal-logo">
+    </div>
+    <p id="redirectModalTitle" class="redirect-modal-title">Sie verlassen jetzt JIM MOBILIEN</p>
+    <p class="redirect-modal-text">Sie werden zu <strong>Evernest</strong> weitergeleitet — dem Vertragspartner, über den Jim-Rico Krüger seine Immobilienangebote vermarktet.</p>
+    <div class="redirect-modal-progress"><span id="redirectModalBar"></span></div>
+    <div class="redirect-modal-actions">
+      <button type="button" class="btn btn-outline" data-redirect-cancel>Abbrechen</button>
+      <a href="#" id="redirectModalContinue" class="btn btn-gold" target="_blank" rel="noopener">Jetzt weiter</a>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+  // Fail-safe: guarantees scroll-reveal content (photos etc.) never stays
+  // permanently hidden, even if an unrelated error interrupts script.js.
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      document.querySelectorAll('[data-reveal]').forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+    }, 1500);
+  });
+</script>
 </body>
 </html>
