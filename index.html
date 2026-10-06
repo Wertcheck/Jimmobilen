@@ -615,19 +615,59 @@
   </div>
 </footer>
 
-<!-- ============ EVERNEST-WEITERLEITUNGS-HINWEIS ============ -->
+<!-- ============ EVERNEST-WEITERLEITUNGS-HINWEIS ============
+     Wird von script.js (initRedirectModal) bei jedem Klick auf a.evernest-link geöffnet.
+     Ziel-URL = href des angeklickten Links. Theme-Wechsel läuft über .logo-light / .logo-dark. -->
 <div class="redirect-modal" id="redirectModal" aria-hidden="true">
   <div class="redirect-modal-backdrop" data-redirect-cancel></div>
-  <div class="redirect-modal-panel" role="dialog" aria-modal="true" aria-labelledby="redirectModalTitle">
-    <div class="redirect-modal-icon">
-      <img src="assets/evernest-logo-light.png" alt="Evernest" class="redirect-modal-logo">
+  <div class="rm-panel" role="dialog" aria-modal="true" aria-labelledby="redirectModalTitle" aria-describedby="redirectModalText" tabindex="-1">
+
+    <div class="rm-brands">
+      <span class="rm-brand rm-brand-jim">
+        <img class="logo-light" src="assets/logo-v2-trimmed.png" alt="JIM MOBILIEN by Jim Krüger" width="1572" height="399" decoding="async">
+        <img class="logo-dark" src="assets/logo-v2-dark-official.png" alt="JIM MOBILIEN by Jim Krüger" width="1576" height="403" decoding="async">
+      </span>
+
+      <span class="rm-link" aria-hidden="true">
+        <svg viewBox="0 0 100 64" focusable="false">
+          <defs>
+            <linearGradient id="rmGold" gradientUnits="userSpaceOnUse" x1="8" y1="0" x2="94" y2="0">
+              <stop offset="0" stop-color="#c9a227" stop-opacity=".35"/><stop offset=".55" stop-color="#e8c766"/><stop offset="1" stop-color="#c9a227" stop-opacity=".5"/>
+            </linearGradient>
+            <radialGradient id="rmDotGlow"><stop offset="0" stop-color="#ffe9a6" stop-opacity=".95"/><stop offset="1" stop-color="#e8c766" stop-opacity="0"/></radialGradient>
+          </defs>
+          <path class="rm-arc rm-arc-1" id="rmArcPath" pathLength="1" d="M12 36 C 18 8, 66 2, 90 22" fill="none" stroke="url(#rmGold)" stroke-width="1.3" stroke-linecap="round"/>
+          <path class="rm-arc rm-arc-2" pathLength="1" d="M90 42 C 82 62, 36 66, 12 40" fill="none" stroke="url(#rmGold)" stroke-width="1" stroke-linecap="round"/>
+          <g class="rm-arrow" fill="none" stroke="#e8c766" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M28 32H69"/><path d="M62 25.5 70 32l-8 6.5"/>
+          </g>
+          <g id="rmDot" opacity="0"><circle r="7" fill="url(#rmDotGlow)"/><circle r="2.1" fill="#fff3c4"/></g>
+        </svg>
+      </span>
+
+      <span class="rm-brand rm-evernest"><img src="assets/evernest-logo-light.png" alt="Evernest" width="680" height="103" decoding="async"></span>
     </div>
-    <p id="redirectModalTitle" class="redirect-modal-title">Sie verlassen jetzt JIM MOBILIEN</p>
-    <p class="redirect-modal-text">Sie werden zu <strong>Evernest</strong> weitergeleitet — dem Vertragspartner, über den Jim-Rico Krüger seine Immobilienangebote vermarktet.</p>
-    <div class="redirect-modal-progress"><span id="redirectModalBar"></span></div>
-    <div class="redirect-modal-actions">
-      <button type="button" class="btn btn-outline" data-redirect-cancel>Abbrechen</button>
-      <a href="#" id="redirectModalContinue" class="btn btn-gold" target="_blank" rel="noopener">Jetzt weiter</a>
+
+    <div class="rm-house" aria-hidden="true">
+      <img class="logo-light" src="assets/redirect-house-dark.jpg" alt="" width="920" height="256" decoding="async">
+      <img class="logo-dark" src="assets/redirect-house-light.jpg" alt="" width="920" height="256" decoding="async">
+    </div>
+
+    <h2 class="rm-title" id="redirectModalTitle">Sie werden jetzt zu<br><em>Evernest</em> weitergeleitet</h2>
+    <p class="rm-text" id="redirectModalText">Evernest ist der Vertragspartner, über den Jim-Rico Krüger seine Immobilienangebote vermarktet.</p>
+
+    <ul class="rm-benefits">
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 4.5 6v5.6c0 4.6 3.1 7.9 7.5 9.6 4.4-1.7 7.5-5 7.5-9.6V6L12 2.8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m8.6 12.2 2.4 2.4 4.4-4.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Vertrauens&shy;voller Partner</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V9.8l8-5.8 8 5.8V21" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 21v-6.5h5V21" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Professionelle Vermarktung</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 20.5V13M10 20.5V8.5M15.5 20.5v-9M21 20.5V4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span>Starke Reichweite für Ihre Immobilie</span></li>
+    </ul>
+
+    <div class="rm-progress" id="redirectModalProgress" role="progressbar" aria-label="Weiterleitung zu Evernest" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="rm-progress-fill" id="redirectModalBar"></span></div>
+    <p class="rm-status" id="redirectModalStatus" aria-live="polite">Weiterleitung läuft …</p>
+
+    <div class="rm-actions">
+      <a href="#" id="redirectModalContinue" class="btn btn-gold rm-continue" target="_blank" rel="noopener">Jetzt weiter <svg class="rm-btn-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12h15M13.5 5.5 20 12l-6.5 6.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <button type="button" class="btn rm-cancel" data-redirect-cancel>Abbrechen</button>
     </div>
   </div>
 </div>

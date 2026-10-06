@@ -285,60 +285,145 @@ const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 // ---------- Evernest redirect notice ----------
+// Every a.evernest-link opens the modal; the target is the clicked link's own href.
+// The progress bar is real UI state, not a fixed-length fake: it eases to ~60 % quickly,
+// slows towards ~85 %, then the redirect happens and the bar completes. "Jetzt weiter"
+// finishes the bar immediately, and it never sits at 100 % — it opens the target at once.
 (function initRedirectModal() {
   const modal = document.getElementById('redirectModal');
+  const panel = modal?.querySelector('.rm-panel');
   const bar = document.getElementById('redirectModalBar');
+  const progress = document.getElementById('redirectModalProgress');
+  const status = document.getElementById('redirectModalStatus');
   const continueLink = document.getElementById('redirectModalContinue');
-  if (!modal || !bar || !continueLink) return;
+  const cancelBtn = modal?.querySelector('.rm-cancel');
+  if (!modal || !panel || !bar || !continueLink || !cancelBtn) return;
 
-  let redirectTimer = null;
-  let targetUrl = null;
+  const dot = document.getElementById('rmDot');
+  const arc = document.getElementById('rmArcPath');
+  const arcLen = arc ? arc.getTotalLength() : 0;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const FAST_MS = 1000;       // 0 → 60 %
+  const SLOW_MS = 1800;       // 60 → 85 %  (redirect happens at FAST_MS + SLOW_MS)
+  const FINISH_MS = 280;      // → 100 % right before opening
+  const DOT_START = 900, DOT_MS = 1150;
+  const STATUS_DEFAULT = 'Weiterleitung läuft …';
+  const STATUS_BLOCKED = 'Ihr Browser hat das neue Fenster blockiert – bitte auf „Jetzt weiter“ tippen.';
+
+  const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+  const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+  const clamp01 = (t) => Math.min(1, Math.max(0, t));
+
+  const inertTargets = Array.from(document.querySelectorAll('.site-header, main, .site-footer'));
+  let rafId = 0, startTs = 0, mode = 'idle', current = 0, finishFrom = 0, finishTs = 0, finishMs = FINISH_MS, shown = 0;
+  let targetUrl = '', lastTrigger = null, blocked = false;
+
+  const setBar = (v) => {
+    current = v;
+    bar.style.transform = `scaleX(${(v / 100).toFixed(4)})`;
+    const rounded = Math.round(v / 5) * 5;                 // coarse updates keep screen readers calm
+    if (rounded !== shown) { shown = rounded; progress.setAttribute('aria-valuenow', String(rounded)); }
+  };
+
+  const moveDot = (ts) => {
+    if (!dot || !arcLen || reduceMotion.matches) return;
+    const t = clamp01((ts - startTs - DOT_START) / DOT_MS);
+    if (t <= 0 || t >= 1) { dot.setAttribute('opacity', '0'); return; }
+    const p = arc.getPointAtLength(arcLen * easeInOut(t));
+    dot.setAttribute('transform', `translate(${p.x.toFixed(2)} ${p.y.toFixed(2)})`);
+    dot.setAttribute('opacity', String(Math.min(1, t / 0.15, (1 - t) / 0.2).toFixed(2)));
+  };
+
+  const stop = () => { cancelAnimationFrame(rafId); rafId = 0; mode = 'idle'; };
 
   const closeModal = () => {
+    stop();
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
+    inertTargets.forEach((el) => el.removeAttribute('inert'));
     document.body.style.overflow = '';
-    clearTimeout(redirectTimer);
-    bar.style.transition = 'none';
-    bar.style.width = '0%';
+    document.body.style.paddingRight = '';
+    if (lastTrigger && document.contains(lastTrigger)) lastTrigger.focus({ preventScroll: true });
+    lastTrigger = null;
   };
 
-  const openModal = (url) => {
-    targetUrl = url;
+  const go = () => {
+    stop();
+    setBar(100);
+    status.textContent = STATUS_DEFAULT;
+    const win = window.open(targetUrl, '_blank');
+    if (win) { win.opener = null; closeModal(); return; }
+    // Popup blocked (no user gesture left): keep the modal and let the visitor tap "Jetzt weiter"
+    blocked = true;
+    status.textContent = STATUS_BLOCKED;
+  };
+
+  const beginFinish = (ts, ms) => { mode = 'finish'; finishFrom = current; finishTs = ts; finishMs = ms; };
+
+  const tick = (ts) => {
+    if (!startTs) startTs = ts;
+    const el = ts - startTs;
+    moveDot(ts);
+
+    if (mode === 'auto') {
+      if (el < FAST_MS) setBar(60 * easeOut(el / FAST_MS));
+      else if (el < FAST_MS + SLOW_MS) setBar(60 + 25 * easeOut((el - FAST_MS) / SLOW_MS));
+      else beginFinish(ts, FINISH_MS);
+    }
+    if (mode === 'finish') {
+      const t = finishMs ? clamp01((ts - finishTs) / finishMs) : 1;
+      setBar(finishFrom + (100 - finishFrom) * easeInOut(t));
+      if (t >= 1) { go(); return; }
+    }
+    rafId = requestAnimationFrame(tick);
+  };
+
+  const openModal = (url, trigger) => {
+    targetUrl = url; lastTrigger = trigger || null; blocked = false;
     continueLink.href = url;
-    modal.classList.add('is-open');
-    modal.setAttribute('aria-hidden', 'false');
+    status.textContent = STATUS_DEFAULT;
+    shown = -1; setBar(0);
+    if (dot) dot.setAttribute('opacity', '0');
+
+    const gutter = window.innerWidth - document.documentElement.clientWidth;   // avoid a layout jump when the scrollbar disappears
     document.body.style.overflow = 'hidden';
+    if (gutter > 0) document.body.style.paddingRight = `${gutter}px`;
+    inertTargets.forEach((el) => el.setAttribute('inert', ''));
 
-    bar.style.transition = 'none';
-    bar.style.width = '0%';
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        bar.style.transition = 'width 2.2s linear';
-        bar.style.width = '100%';
-      });
-    });
+    modal.setAttribute('aria-hidden', 'false');
+    modal.classList.add('is-open');
+    panel.focus({ preventScroll: true });
 
-    redirectTimer = setTimeout(() => {
-      window.open(url, '_blank', 'noopener');
-      closeModal();
-    }, 2200);
+    stop(); startTs = 0; mode = 'auto';
+    rafId = requestAnimationFrame(tick);
   };
 
-  document.querySelectorAll('a.evernest-link').forEach((link) => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      openModal(link.href);
-    });
+  // Open on every Evernest link (keeps Cmd/Ctrl/Shift/middle-click native: those open a new tab directly)
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a.evernest-link');
+    if (!link || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    openModal(link.href, link);
   });
 
-  modal.querySelectorAll('[data-redirect-cancel]').forEach((el) => {
-    el.addEventListener('click', closeModal);
+  modal.querySelectorAll('[data-redirect-cancel]').forEach((el) => el.addEventListener('click', closeModal));
+
+  continueLink.addEventListener('click', (e) => {
+    if (blocked) { closeModal(); return; }              // user gesture: let the browser open the link natively
+    e.preventDefault();
+    if (mode === 'finish') return;
+    const now = performance.now();
+    beginFinish(now, reduceMotion.matches ? 0 : 320);   // speed the bar up, then open
+    if (!rafId) rafId = requestAnimationFrame(tick);
   });
 
-  continueLink.addEventListener('click', () => {
-    clearTimeout(redirectTimer);
-    closeModal();
+  modal.addEventListener('keydown', (e) => {            // focus trap: only two controls live inside
+    if (e.key !== 'Tab') return;
+    const order = [continueLink, cancelBtn];
+    const i = order.indexOf(document.activeElement);
+    e.preventDefault();
+    order[i === -1 ? 0 : (i + (e.shiftKey ? order.length - 1 : 1)) % order.length].focus();
   });
 
   document.addEventListener('keydown', (e) => {
