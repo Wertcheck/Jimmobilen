@@ -861,3 +861,32 @@ html[data-theme="light"] .roadmap-rail::before{ background:rgba(13,21,34,.14); }
 @media (max-width: 520px){
   .form-row{ gap:0; }
 }
+
+/* ==========================================================
+   VALUATION CARDS — photo on top, icon buttons (per reference)
+   ========================================================== */
+.valuation-option{ padding:0; overflow:hidden; border-radius:20px; }
+.valuation-photo{ width:100%; height:auto; aspect-ratio:2 / 1; object-fit:cover; display:block; }
+.valuation-option:not(.valuation-option-accent) .valuation-photo{ object-position:80% center; }
+.valuation-option-accent .valuation-photo{ object-position:60% center; }
+.valuation-body{ display:flex; flex-direction:column; flex-grow:1; padding:26px 28px 28px; }
+.valuation-option h3{ font-size:1.7rem; line-height:1.15; margin-bottom:12px; }
+
+/* Buttons with a leading icon and a trailing arrow */
+.btn-iconed{ justify-content:space-between; gap:12px; min-height:52px; padding:0 22px; }
+.btn-iconed span{ flex:1; text-align:center; }
+.btn-iconed .btn-icon-l{ width:24px; height:24px; }
+.btn-iconed .btn-icon-r{ width:20px; height:20px; transition:transform .25s var(--ease); }
+.btn-iconed:hover .btn-icon-r{ transform:translateX(4px); }
+.btn-outline.btn-iconed .btn-icon-l{ color:var(--gold-1); }
+.btn-gold.btn-iconed .btn-icon-l,
+.btn-gold.btn-iconed .btn-icon-r{ color:var(--navy); }
+
+@media (max-width: 780px){
+  .valuation-tool-inner{ padding-left:12px; padding-right:12px; }   /* wider cards on phones */
+  .valuation-options{ gap:16px; }
+  .valuation-tool .valuation-tool-inner > :not(.valuation-options){ padding-left:8px; padding-right:8px; }
+  .valuation-body{ padding:24px 24px 26px; }
+  .valuation-option h3{ font-size:clamp(1.55rem, 7vw, 1.9rem); }
+  .valuation-option p{ font-size:.98rem; line-height:1.55; }
+}
