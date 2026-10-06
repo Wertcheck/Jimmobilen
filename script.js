@@ -389,3 +389,34 @@ form?.addEventListener('submit', (e) => {
     form.reset();
   }, 2600);
 });
+
+// ---------- Mobile hero: fit the intro text to the free space ----------
+// The hero fills the visible screen (see style.css). Grow the intro text to the
+// largest size that still fits, so no empty gap is left beneath it.
+(function fitHeroLede() {
+  const hero = document.querySelector('.hero');
+  const lede = document.querySelector('.hero-lede');
+  if (!hero || !lede) return;
+  const mq = window.matchMedia('(max-width: 980px)');
+
+  const fit = () => {
+    lede.style.fontSize = '';
+    if (!mq.matches) return;
+    const minH = parseFloat(getComputedStyle(hero).minHeight) || 0;
+    let lo = 12, hi = 18;
+    for (let i = 0; i < 8; i++) {
+      const mid = (lo + hi) / 2;
+      lede.style.fontSize = mid + 'px';
+      if (hero.offsetHeight <= minH + 0.5) lo = mid; else hi = mid;
+    }
+    lede.style.fontSize = lo + 'px';
+  };
+
+  let timer = null;
+  const refit = () => { clearTimeout(timer); timer = setTimeout(fit, 120); };
+  fit();
+  window.addEventListener('load', fit);
+  window.addEventListener('resize', refit);
+  window.addEventListener('orientationchange', refit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+})();

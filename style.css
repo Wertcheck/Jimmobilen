@@ -178,7 +178,7 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
      portrait, buttons AND trust badges are all visible on first load. */
   .hero{
     display:flex; flex-direction:column;
-    min-height:calc(100vh - 72px); min-height:calc(100svh - 72px);
+    min-height:calc(100vh - 73px); min-height:calc(100svh - 73px);
     padding-top:16px; padding-bottom:14px; overflow:hidden;
   }
   .hero-grid{ flex:1; width:100%; }
@@ -188,7 +188,7 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
      full width underneath (matches the reference design). */
   .hero-grid{
     display:grid;
-    grid-template-columns:minmax(0,50%) minmax(0,1fr);
+    grid-template-columns:minmax(0,46%) minmax(0,1fr);
     grid-template-rows:auto auto 1fr auto auto;  /* spare height goes below the intro */
     gap:0; align-items:start;
   }
@@ -200,7 +200,7 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
   }
   .hero-lede{
     grid-column:1; grid-row:3; position:relative; z-index:2;
-    font-size:.86rem; line-height:1.45; max-width:none; margin:0;
+    font-size:.86rem; line-height:1.5; max-width:none; margin:0; padding-right:6px;  /* font-size is fitted to the free space by script.js */
   }
   .hero-ctas{
     grid-column:1 / -1; grid-row:4; position:relative; z-index:2;
@@ -208,19 +208,22 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
   }
   .hero-ctas .btn{ width:100%; min-height:46px; padding:0 22px; font-size:.92rem; line-height:1.2; }
 
-  /* Portrait: fills the right column down to the buttons (no gap), is wider
-     than the column and bleeds to the screen edge. The image is absolutely
-     positioned so it never forces the rows taller — it scales to the space. */
+  /* Portrait: takes the full height of the headline/intro area (eyebrow row
+     down to the buttons, no gap) and scales to it. It is sized with container
+     units, so the figure grows with the available height and always bleeds to
+     the screen edge. */
   .hero-photo{
     grid-column:2; grid-row:1 / 4; position:relative; align-self:stretch; justify-self:end;
-    width:168%; margin-right:-43%; margin-bottom:-14px; z-index:1; pointer-events:none;
-    transform:none !important;
+    width:200%; margin-right:-20px; margin-bottom:-14px; z-index:1; pointer-events:none;
+    container-type:size; transform:none !important;
   }
   .hero-photo img{
-    position:absolute; inset:0; width:100%; height:100%;
-    object-fit:contain; object-position:right bottom;
+    position:absolute; bottom:0; width:auto; max-width:none;
+    height:min(100%, 106vw);                 /* grows with the space, but never so big it covers the text */
+    right:calc(min(100cqh, 106vw) * -0.15);  /* figure bleeds to the screen edge */
     filter:drop-shadow(0 14px 24px rgba(0,0,0,.4));
   }
+  .hero-photo img.logo-dark{ right:calc(min(100cqh, 106vw) * -0.125); }  /* black-suit photo has a different crop */
 
   .trust-badges{
     grid-column:1 / -1; grid-row:5; position:relative; z-index:2;
