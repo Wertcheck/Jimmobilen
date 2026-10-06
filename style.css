@@ -169,71 +169,57 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
 
 @media (max-width: 980px){
   .header-inner{ height:72px; }
-  .hero{ padding-bottom:32px; padding-top:16px; overflow-x:hidden; }
+  .wrap{ padding:0 20px; }
+  .hero{ padding-top:24px; padding-bottom:28px; overflow:hidden; }
+  .hero-skyline{ display:none; }
 
-  /* Main hero wrapper: the positioning context for the absolutely
-     placed photo. Text column, photo and badges are simple sibling
-     blocks — no grid needed on mobile. */
+  /* Mobile hero: the children of .hero-copy join the grid directly, so the
+     portrait can sit beside headline + intro while buttons and badges run
+     full width underneath (matches the reference design). */
   .hero-grid{
-    position:relative;
-    display:flex;
-    flex-direction:column;
-    min-height:520px;
+    display:grid;
+    grid-template-columns:minmax(0,54%) minmax(0,1fr);
+    grid-template-areas:
+      "eyebrow eyebrow"
+      "title   photo"
+      "lede    photo"
+      "ctas    ctas"
+      "badges  badges";
+    gap:0; align-items:start;
   }
-
-  /* Text column: headline, copy and the two CTA buttons. Always
-     stays above the photo and is width-capped so the photo has
-     room on the right without ever sitting behind the buttons. */
-  .hero-copy{
-    position:relative; z-index:10;
-    max-width:65%;
+  .hero-copy{ display:contents; }
+  .hero-copy .eyebrow{ grid-area:eyebrow; font-size:.72rem; letter-spacing:.12em; margin-bottom:14px; }
+  .hero-copy h1{
+    grid-area:title; position:relative; z-index:2;
+    font-size:clamp(1.6rem, 7.8vw, 2.4rem); line-height:1.08; max-width:none; margin-bottom:.45em;
   }
-  .hero-copy h1{ font-size:clamp(1.25rem, 6vw, 1.55rem); max-width:none; margin-bottom:.4em; }
-  .hero-lede{ margin-top:0; margin-bottom:1.4em; font-size:.9rem; line-height:1.5; }
-
+  .hero-lede{
+    grid-area:lede; position:relative; z-index:2;
+    font-size:.95rem; line-height:1.55; max-width:none; margin:0;
+  }
   .hero-ctas{
-    position:relative; z-index:10;
-    margin-bottom:28px; flex-direction:column; align-items:stretch; gap:12px;
+    grid-area:ctas; position:relative; z-index:2;
+    flex-direction:column; align-items:stretch; gap:12px; margin:26px 0 0;
   }
-  .hero-ctas .btn{ text-align:center; }
+  .hero-ctas .btn{ width:100%; text-align:center; }
 
-  /* Photo: own absolutely positioned box, top-right, sized by height
-     so it never grows into/behind the buttons or gets its head
-     clipped. object-fit:contain keeps the full figure intact. */
+  /* Portrait: sits in the right column but is wider than it, bleeding to
+     the screen edge and ending right above the buttons. */
   .hero-photo{
-    position:absolute; right:0; top:15%; height:65%;
-    width:52%; margin:0;
-    z-index:1; pointer-events:none;
+    grid-area:photo; align-self:end; justify-self:end;
+    width:178%; margin-right:-40%; z-index:1; pointer-events:none;
+    transform:none !important;
   }
-  .hero-photo img{
-    width:100%; height:100%; display:block; background:none;
-    object-fit:contain; object-position:right top;
-    filter:drop-shadow(0 14px 24px rgba(0,0,0,.4));
-  }
+  .hero-photo img{ width:100%; height:auto; filter:drop-shadow(0 14px 24px rgba(0,0,0,.4)); }
 
-  /* Badges: full-width row, always below the buttons, always
-     side by side — never nested inside the constrained text column. */
   .trust-badges{
-    position:relative; z-index:10;
+    grid-area:badges; position:relative; z-index:2;
     display:flex; flex-direction:row; justify-content:space-between; align-items:center;
-    width:100%; gap:12px; margin-top:auto; padding-top:16px;
+    gap:12px; margin-top:28px; padding-top:20px; border-top:1px solid rgba(232,199,102,.14);
   }
   .trust-badges .badge{ flex:1; min-width:0; }
-  .trust-badges .badge svg{ width:20px; height:20px; flex-shrink:0; }
-  .trust-badges .badge span{ font-size:.64rem; line-height:1.3; }
-
-  .hero-skyline{ display:none; }
-}
-
-/* Narrow phones: give the photo relatively more room so it doesn't
-   shrink out of proportion below ~600px viewport width. */
-@media (max-width: 600px){
-  .hero-grid{ min-height:480px; }
-  .hero-copy{ max-width:60%; }
-  .hero-photo{ width:56%; }
-  .hero-copy h1{ font-size:clamp(1.1rem, 5.6vw, 1.35rem); }
-  .hero-lede{ font-size:.85rem; }
-  .trust-badges .badge span{ font-size:.6rem; }
+  .trust-badges .badge svg{ width:30px; height:30px; }
+  .trust-badges .badge span{ font-size:.74rem; line-height:1.35; }
 }
 
 /* ==========================================================
@@ -819,4 +805,22 @@ html[data-theme="light"] .roadmap-rail::before{ background:rgba(13,21,34,.14); }
 @media (max-width: 480px){
   .redirect-modal-panel{ padding:32px 24px 26px; }
   .redirect-modal-actions{ flex-direction:column; }
+}
+
+/* ==========================================================
+   MOBILE POLISH (phones & small tablets only — desktop untouched)
+   ========================================================== */
+@media (max-width: 900px){
+  h2{ line-height:1.2; }
+  /* Centred section headings: the max-width in "ch" made them hug the left edge */
+  .listings .section-head h2,
+  .roadmap .section-head h2,
+  .faq .section-head h2{ margin-left:auto; margin-right:auto; max-width:none; }
+  .roadmap .section-head h2 br{ display:none; }
+  .about-copy h2,
+  .contact-copy h2,
+  .section-head h2{ max-width:none; }
+}
+@media (max-width: 520px){
+  .form-row{ gap:0; }
 }
