@@ -559,6 +559,15 @@ form?.addEventListener('submit', (e) => {
     slots: ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
     leadDays: 1,                                                                  // earliest bookable day = today + n
     monthsAhead: 3,                                                               // how far ahead visitors can book
+
+    // Occupancy. Real appointments / blocked times go in `blocked` ('YYYY-MM-DD': ['09:00', …] or 'all').
+    // While there are no real bookings yet, `simulateBusy` fills a fixed, repeatable pattern so the
+    // calendar does not look empty. Set it to false as soon as real availability is maintained.
+    simulateBusy: true,
+    busyShare: 0.42,                                                              // share of slots shown as taken
+    fullDayShare: 0.14,                                                           // share of days shown as fully booked
+    minFreeSlots: 2,                                                              // a day that is not fully booked keeps at least this many
+    blocked: {},
   };
   const email = root.dataset.email || '';
   const MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
@@ -574,7 +583,35 @@ form?.addEventListener('submit', (e) => {
   const minDate = new Date(today); minDate.setDate(minDate.getDate() + CFG.leadDays);
   const lastMonth = new Date(today.getFullYear(), today.getMonth() + CFG.monthsAhead, 1);
   const maxDate = new Date(lastMonth.getFullYear(), lastMonth.getMonth() + 1, 0);
-  const isAvailable = (d) => d >= minDate && d <= maxDate && CFG.weekdays.includes(d.getDay());
+  // Stable 0..1 hash per string, so the simulated pattern is identical for every visitor and reload
+  const hash01 = (str) => {
+    let h = 2166136261;
+    for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+    h ^= h >>> 13; h = Math.imul(h, 1274126177); h ^= h >>> 16;
+    return (h >>> 0) / 4294967296;
+  };
+
+  const takenSlots = (d) => {
+    const key = keyOf(d);
+    const real = CFG.blocked[key];
+    if (real === 'all') return new Set(CFG.slots);
+    const taken = new Set(Array.isArray(real) ? real : []);
+    if (CFG.simulateBusy) {
+      if (hash01('day|' + key) < CFG.fullDayShare) return new Set(CFG.slots);
+      const daysAhead = Math.round((d - today) / 86400000);
+      const share = Math.min(0.85, CFG.busyShare + (daysAhead <= 14 ? 0.25 : 0));   // the coming two weeks look busier
+      CFG.slots.forEach((s) => { if (hash01(key + '|' + s) < share) taken.add(s); });
+      const free = CFG.slots.filter((s) => !taken.has(s)).sort((a, b) => hash01(key + '|' + b) - hash01(key + '|' + a));
+      for (let i = 0; free.length + i < CFG.minFreeSlots && i < taken.size; i++) {
+        const back = [...taken].sort((a, b) => hash01(key + '|' + b) - hash01(key + '|' + a))[0];
+        taken.delete(back);
+      }
+    }
+    return taken;
+  };
+  const freeSlots = (d) => { const t = takenSlots(d); return CFG.slots.filter((s) => !t.has(s)); };
+
+  const isAvailable = (d) => d >= minDate && d <= maxDate && CFG.weekdays.includes(d.getDay()) && freeSlots(d).length > 0;
 
   let firstOpen = new Date(minDate);
   while (!isAvailable(firstOpen) && firstOpen <= maxDate) firstOpen.setDate(firstOpen.getDate() + 1);
@@ -597,9 +634,12 @@ form?.addEventListener('submit', (e) => {
         + ` data-day="${keyOf(d)}" aria-label="${longDate(d)}" aria-pressed="${selected ? 'true' : 'false'}"${isAvailable(d) ? '' : ' disabled'}>${n}</button>`;
     }
 
+    const taken = state.date ? takenSlots(state.date) : new Set();
     const slots = state.date
       ? `<p class="booking-slots-title">${longDate(state.date)}</p><div class="booking-slot-list">`
-        + CFG.slots.map((s) => `<button type="button" class="booking-slot" data-slot="${s}">${s} Uhr</button>`).join('') + '</div>'
+        + CFG.slots.map((s) => taken.has(s)
+          ? `<button type="button" class="booking-slot is-taken" disabled aria-label="${s} Uhr, belegt">${s} Uhr</button>`
+          : `<button type="button" class="booking-slot" data-slot="${s}">${s} Uhr</button>`).join('') + '</div>'
       : '<p class="booking-hint">Wählen Sie links einen Tag – danach erscheinen die freien Uhrzeiten.</p>';
 
     return `

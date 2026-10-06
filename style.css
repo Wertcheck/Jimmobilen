@@ -1076,3 +1076,7 @@ html[data-theme="light"] .valuation-tool .card{ background:#ffffff; }   /* card 
   .joint-venture-panel img{ max-height:30px; }
   .joint-venture-x{ width:20px; font-size:1.1rem; }
 }
+
+/* Booking: taken times */
+.booking-slot.is-taken{ background:transparent; border-color:#ece6d6; color:#b4b8c0; text-decoration:line-through; cursor:default; transform:none; }
+.booking-slot.is-taken:hover{ background:transparent; border-color:#ece6d6; transform:none; }
