@@ -851,3 +851,32 @@ html[data-theme="light"] .valuation-tool .card{ background:#ffffff; }   /* card 
 @media (max-width: 560px){
   .categories-grid{ grid-template-columns:1fr; }
 }
+
+/* ==========================================================
+   SERVICE CARDS — no photo: a structured header (number + icon tile)
+   and footer (step count + link) instead. Same type scale as .card.
+   ========================================================== */
+.service-card{ padding:22px 22px 20px; }
+.service-card-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
+.service-card-no{ font-size:.72rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-ink); }
+.service-card-icon{
+  display:flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:12px;
+  background:var(--cream); border:1px solid #ece6d6; color:var(--gold-ink);
+  transition:background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease);
+}
+.service-card-icon svg{ width:24px; height:24px; }
+.service-card:hover .service-card-icon{ background:var(--gold-line); border-color:transparent; color:var(--navy); transform:rotate(-4deg) scale(1.04); }
+.service-card h3{ font-size:1.2rem; line-height:1.2; margin-bottom:8px; }
+.service-card p{ font-size:.9rem; line-height:1.55; margin:0 0 22px; }
+.service-card .service-card-foot{
+  position:static; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  margin-top:auto; padding-top:16px; border-top:1px solid #efeadb;
+}
+.service-card-meta{ font-size:.8rem; color:var(--muted); }
+.service-card .service-more{ position:static; align-self:auto; }
+.service-more::after{ content:''; position:absolute; inset:0; z-index:2; }   /* whole card opens the details */
+.service-card:hover .service-more span{ transform:translateX(4px); }
+.service-more:focus-visible{ outline:none; }
+.service-card:has(.service-more:focus-visible){ outline:2px solid var(--gold-1); outline-offset:3px; }
+html[data-theme="light"] .service-card-icon{ background:#f7f4ee; }
+html[data-theme="light"] .service-card .service-card-foot{ border-top-color:#efeadb; }
