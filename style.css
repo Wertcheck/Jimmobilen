@@ -863,28 +863,30 @@ html[data-theme="light"] .roadmap-rail::before{ background:rgba(13,21,34,.14); }
 }
 
 /* ==========================================================
-   VALUATION CARDS — photo on top, icon buttons (per reference)
+   VALUATION CARDS — same card language as the property categories:
+   photo on top, calm text link, whole card clickable
    ========================================================== */
-.valuation-option{ padding:0; overflow:hidden; border-radius:20px; }
+.valuation-option{ position:relative; padding:0; overflow:hidden; border-radius:var(--radius); }
 .valuation-photo{ width:100%; height:auto; aspect-ratio:2 / 1; object-fit:cover; display:block; }
 .valuation-option:not(.valuation-option-accent) .valuation-photo{ object-position:80% center; }
 .valuation-option-accent .valuation-photo{ object-position:60% center; }
-.valuation-body{ display:flex; flex-direction:column; flex-grow:1; padding:26px 28px 28px; }
-.valuation-option h3{ font-size:1.7rem; line-height:1.15; margin-bottom:12px; }
+.valuation-body{ display:flex; flex-direction:column; flex-grow:1; padding:24px 26px 26px; }
+.valuation-option h3{ font-size:1.5rem; line-height:1.2; margin-bottom:8px; }
+.valuation-option p{ font-size:.92rem; line-height:1.55; margin-bottom:20px; }
 
-/* Buttons with a leading icon and a trailing arrow */
-.btn-iconed{ justify-content:space-between; gap:12px; min-height:52px; padding:0 22px; }
-.btn-iconed span{ flex:1; text-align:center; }
-.btn-iconed .btn-icon-l{ width:24px; height:24px; }
-.btn-iconed .btn-icon-r{ width:20px; height:20px; transition:transform .25s var(--ease); }
-.btn-iconed:hover .btn-icon-r{ transform:translateX(4px); }
-.btn-outline.btn-iconed .btn-icon-l{ color:var(--gold-1); }
-.btn-gold.btn-iconed .btn-icon-l,
-.btn-gold.btn-iconed .btn-icon-r{ color:var(--navy); }
+.valuation-link{
+  display:inline-flex; align-items:center; gap:6px; align-self:flex-start; margin-top:auto;
+  font-size:.86rem; font-weight:600; color:var(--gold-ink);
+}
+.valuation-link span{ display:inline-block; transition:transform .25s var(--ease); }
+.valuation-option:hover .valuation-link span{ transform:translateX(4px); }
+.valuation-link::after{ content:''; position:absolute; inset:0; }   /* stretched link: whole card is clickable */
+.valuation-option-accent .valuation-link{ color:var(--gold-2); }
+html[data-theme="light"] .valuation-option-accent .valuation-link{ color:var(--gold-ink); }
 
 @media (max-width: 780px){
   .valuation-options{ gap:16px; }
-  .valuation-body{ padding:24px 24px 26px; }
-  .valuation-option h3{ font-size:clamp(1.55rem, 7vw, 1.9rem); }
-  .valuation-option p{ font-size:.98rem; line-height:1.55; }
+  .valuation-body{ padding:22px 22px 24px; }
+  .valuation-option h3{ font-size:clamp(1.3rem, 5.8vw, 1.5rem); }
+  .valuation-option p{ font-size:.9rem; }
 }
