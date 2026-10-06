@@ -513,13 +513,39 @@
     <div class="contact-copy">
       <p class="eyebrow eyebrow-light">Kontakt</p>
       <h2>Ich freue mich auf Ihre Nachricht.</h2>
-      <p>Ob konkretes Anliegen oder erste Frage — schreiben Sie mir, ich melde mich zeitnah persönlich zurück.</p>
+      <p>Termin buchen oder schreiben.</p>
       <ul class="contact-list">
         <li><span>Telefon</span><a href="tel:+4930000000">030 / 000 000</a></li>
         <li><span>E-Mail</span><a href="mailto:jim.krueger@jimmobilien.de">jim.krueger@jimmobilien.de</a></li>
         <li><span>Gebiet</span>Berlin &amp; Umgebung</li>
       </ul>
     </div>
+    <div class="contact-panel">
+      <div class="contact-tabs" role="tablist" aria-label="Kontaktart">
+        <button type="button" role="tab" class="contact-tab is-active" id="tab-termin" aria-controls="panel-termin" aria-selected="true">Termin buchen</button>
+        <button type="button" role="tab" class="contact-tab" id="tab-nachricht" aria-controls="panel-nachricht" aria-selected="false" tabindex="-1">Nachricht schreiben</button>
+      </div>
+
+      <div class="contact-tabpanel" id="panel-termin" role="tabpanel" aria-labelledby="tab-termin">
+        <!--
+          ================================================================
+          TERMINBUCHUNG
+          Ohne Eintrag zeigt die Seite einen eigenen Kalender: Besucher
+          wählen Tag und Uhrzeit, ihr E-Mail-Programm öffnet sich mit der
+          fertigen Terminanfrage an die Adresse in data-email.
+          Für echte Live-Buchung mit Kalender-Abgleich (Cal.com, Calendly,
+          Google Kalender "Terminplan" o.ä.): den Buchungslink hier bei
+          data-booking-url eintragen (muss mit https:// beginnen) – der
+          eigene Kalender wird dann durch den Dienst ersetzt.
+          Verfügbare Tage/Zeiten des eigenen Kalenders: script.js, "CFG".
+          ================================================================
+        -->
+        <div class="booking" id="booking" data-booking-url="" data-email="jim.krueger@jimmobilien.de">
+          <p class="booking-nojs">Bitte rufen Sie mich an unter <a href="tel:+4930000000">030 / 000 000</a> oder nutzen Sie das Kontaktformular.</p>
+        </div>
+      </div>
+
+      <div class="contact-tabpanel" id="panel-nachricht" role="tabpanel" aria-labelledby="tab-nachricht" hidden>
     <form class="contact-form" id="contactForm">
       <div class="form-row">
         <div class="form-field">
@@ -557,6 +583,8 @@
       <button type="submit" class="btn btn-gold btn-lg btn-block">Nachricht senden</button>
       <p class="form-note">Mit dem Absenden stimmen Sie der Kontaktaufnahme durch Jim-Rico Krüger zu.</p>
     </form>
+      </div>
+    </div>
   </div>
 </section>
 

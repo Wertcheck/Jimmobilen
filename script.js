@@ -185,7 +185,7 @@ document.querySelectorAll('.service-card').forEach((card) => {
 
 // ---------- Scroll reveal — one restrained pattern, staggered ----------
 const revealTargets = document.querySelectorAll(
-  '.about-photo, .about-copy, .service-card, .roadmap-step, .card, .location-copy, .location-stats, .faq-item, .contact-copy, .contact-form'
+  '.about-photo, .about-copy, .service-card, .roadmap-step, .card, .location-copy, .location-stats, .faq-item, .contact-copy, .contact-panel'
 );
 revealTargets.forEach((el, i) => {
   el.setAttribute('data-reveal', '');
@@ -421,4 +421,200 @@ form?.addEventListener('submit', (e) => {
   window.addEventListener('resize', refit);
   window.addEventListener('orientationchange', refit);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+})();
+
+// ---------- Contact: tabs ----------
+(function initContactTabs() {
+  const tabs = Array.from(document.querySelectorAll('.contact-tab'));
+  if (!tabs.length) return;
+
+  const activate = (tab, focus) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !on;
+    });
+    if (focus) tab.focus();
+  };
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => activate(tab));
+    tab.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      activate(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length], true);
+    });
+  });
+})();
+
+// ---------- Contact: booking calendar ----------
+// Own calendar: the visitor picks a day and a time, then a prepared e-mail request opens.
+// To use a real booking tool instead (Cal.com, Calendly, …) set data-booking-url on #booking.
+(function initBooking() {
+  const root = document.getElementById('booking');
+  if (!root) return;
+
+  const embedUrl = (root.dataset.bookingUrl || '').trim();
+  if (/^https:\/\//i.test(embedUrl)) {
+    const frame = document.createElement('iframe');
+    frame.className = 'booking-embed';
+    frame.src = embedUrl;
+    frame.title = 'Terminbuchung';
+    frame.loading = 'lazy';
+    root.replaceChildren(frame);
+    return;
+  }
+
+  // ---- Availability — adjust here ----
+  const CFG = {
+    weekdays: [1, 2, 3, 4, 5],                                                   // 0 = Sunday … 6 = Saturday
+    slots: ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
+    leadDays: 1,                                                                  // earliest bookable day = today + n
+    monthsAhead: 3,                                                               // how far ahead visitors can book
+  };
+  const email = root.dataset.email || '';
+  const MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+  const WEEKDAYS = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+
+  const pad = (n) => String(n).padStart(2, '0');
+  const keyOf = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const fromKey = (k) => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d); };
+  const longDate = (d) => d.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const minDate = new Date(today); minDate.setDate(minDate.getDate() + CFG.leadDays);
+  const lastMonth = new Date(today.getFullYear(), today.getMonth() + CFG.monthsAhead, 1);
+  const maxDate = new Date(lastMonth.getFullYear(), lastMonth.getMonth() + 1, 0);
+  const isAvailable = (d) => d >= minDate && d <= maxDate && CFG.weekdays.includes(d.getDay());
+
+  let firstOpen = new Date(minDate);
+  while (!isAvailable(firstOpen) && firstOpen <= maxDate) firstOpen.setDate(firstOpen.getDate() + 1);
+
+  const state = { view: new Date(firstOpen.getFullYear(), firstOpen.getMonth(), 1), date: null, slot: null, step: 'pick', mailto: '' };
+
+  const renderPick = () => {
+    const y = state.view.getFullYear();
+    const m = state.view.getMonth();
+    const offset = (new Date(y, m, 1).getDay() + 6) % 7;            // week starts on Monday
+    const count = new Date(y, m + 1, 0).getDate();
+    const canPrev = new Date(y, m - 1, 1) >= new Date(today.getFullYear(), today.getMonth(), 1);
+    const canNext = new Date(y, m + 1, 1) <= lastMonth;
+
+    let days = '<span></span>'.repeat(offset);
+    for (let n = 1; n <= count; n++) {
+      const d = new Date(y, m, n);
+      const selected = state.date && keyOf(d) === keyOf(state.date);
+      days += `<button type="button" class="booking-day${selected ? ' is-selected' : ''}${keyOf(d) === keyOf(today) ? ' is-today' : ''}"`
+        + ` data-day="${keyOf(d)}" aria-label="${longDate(d)}" aria-pressed="${selected ? 'true' : 'false'}"${isAvailable(d) ? '' : ' disabled'}>${n}</button>`;
+    }
+
+    const slots = state.date
+      ? `<p class="booking-slots-title">${longDate(state.date)}</p><div class="booking-slot-list">`
+        + CFG.slots.map((s) => `<button type="button" class="booking-slot" data-slot="${s}">${s} Uhr</button>`).join('') + '</div>'
+      : '<p class="booking-hint">Wählen Sie links einen Tag – danach erscheinen die freien Uhrzeiten.</p>';
+
+    return `
+      <p class="booking-intro">Wählen Sie Ihren Wunschtermin</p>
+      <p class="booking-sub">Kostenlos &amp; unverbindlich – ich bestätige Ihnen den Termin persönlich.</p>
+      <div class="booking-pick">
+        <div class="booking-cal">
+          <div class="booking-month">
+            <button type="button" class="booking-nav" data-nav="-1" aria-label="Vorheriger Monat"${canPrev ? '' : ' disabled'}>&#8249;</button>
+            <h3 class="booking-title" aria-live="polite">${MONTHS[m]} ${y}</h3>
+            <button type="button" class="booking-nav" data-nav="1" aria-label="Nächster Monat"${canNext ? '' : ' disabled'}>&#8250;</button>
+          </div>
+          <div class="booking-weekdays" aria-hidden="true">${WEEKDAYS.map((w) => `<span>${w}</span>`).join('')}</div>
+          <div class="booking-days">${days}</div>
+        </div>
+        <div class="booking-slots" id="bookingSlots">${slots}</div>
+      </div>`;
+  };
+
+  const renderDetails = () => `
+    <div class="booking-summary">
+      <div><span class="booking-summary-label">Wunschtermin</span><strong>${longDate(state.date)} · ${state.slot} Uhr</strong></div>
+      <button type="button" class="booking-change" data-back>Ändern</button>
+    </div>
+    <form class="booking-form" id="bookingForm">
+      <div class="form-row">
+        <div class="form-field"><label for="b-name">Name</label><input type="text" id="b-name" name="name" required autocomplete="name"></div>
+        <div class="form-field"><label for="b-phone">Telefon <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label><input type="tel" id="b-phone" name="phone" autocomplete="tel"></div>
+      </div>
+      <div class="form-field"><label for="b-email">E-Mail</label><input type="email" id="b-email" name="email" required autocomplete="email"></div>
+      <div class="form-field">
+        <label for="b-interest">Interessiert an</label>
+        <select id="b-interest" name="interest"><option>Verkaufen</option><option>Kaufen</option><option>Bewertung</option><option>Sonstiges</option></select>
+      </div>
+      <div class="form-field"><label for="b-note">Nachricht <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label><textarea id="b-note" name="note" rows="3"></textarea></div>
+      <button type="submit" class="btn btn-gold btn-lg btn-block">Termin anfragen</button>
+      <p class="form-note">Mit dem Absenden stimmen Sie der Kontaktaufnahme durch Jim-Rico Krüger zu.</p>
+    </form>`;
+
+  const renderDone = () => `
+    <div class="booking-done">
+      <div class="booking-done-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h3>Ihre Terminanfrage ist vorbereitet</h3>
+      <p>Ihr E-Mail-Programm hat sich mit allen Angaben geöffnet. Senden Sie die E-Mail ab – ich bestätige Ihren Wunschtermin <strong>${longDate(state.date)}, ${state.slot} Uhr</strong> persönlich.</p>
+      <a class="btn btn-gold" id="bookingMailAgain" href="#">E-Mail erneut öffnen</a>
+      <button type="button" class="booking-change" data-reset>Anderen Termin wählen</button>
+    </div>`;
+
+  const render = (focus) => {
+    root.innerHTML = state.step === 'pick' ? renderPick() : state.step === 'details' ? renderDetails() : renderDone();
+    const again = root.querySelector('#bookingMailAgain');
+    if (again) again.href = state.mailto;
+    if (focus) { root.tabIndex = -1; root.focus({ preventScroll: true }); }
+  };
+
+  root.addEventListener('click', (e) => {
+    const nav = e.target.closest('[data-nav]');
+    const day = e.target.closest('[data-day]');
+    const slot = e.target.closest('[data-slot]');
+    if (nav && !nav.disabled) {
+      state.view = new Date(state.view.getFullYear(), state.view.getMonth() + Number(nav.dataset.nav), 1);
+      render();
+    } else if (day && !day.disabled) {
+      state.date = fromKey(day.dataset.day);
+      state.slot = null;
+      render();
+      if (window.matchMedia('(max-width: 999px)').matches) {
+        root.querySelector('#bookingSlots')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    } else if (slot) {
+      state.slot = slot.dataset.slot;
+      state.step = 'details';
+      render(true);
+    } else if (e.target.closest('[data-back]')) {
+      state.step = 'pick';
+      render(true);
+    } else if (e.target.closest('[data-reset]')) {
+      state.date = null; state.slot = null; state.step = 'pick';
+      render(true);
+    }
+  });
+
+  root.addEventListener('submit', (e) => {
+    const form = e.target.closest('#bookingForm');
+    if (!form) return;
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    const f = new FormData(form);
+    const when = `${longDate(state.date)}, ${state.slot} Uhr`;
+    const body = [
+      `Terminanfrage über die Website`, ``,
+      `Wunschtermin: ${when}`, `Name: ${f.get('name')}`, `E-Mail: ${f.get('email')}`,
+      `Telefon: ${f.get('phone') || '–'}`, `Interessiert an: ${f.get('interest')}`, ``,
+      `Nachricht:`, `${f.get('note') || '–'}`,
+    ].join('\n');
+    state.mailto = `mailto:${email}?subject=${encodeURIComponent('Terminanfrage: ' + when)}&body=${encodeURIComponent(body)}`;
+    state.step = 'done';
+    render(true);
+    window.location.href = state.mailto;
+  });
+
+  render();
 })();
