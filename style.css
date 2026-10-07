@@ -1300,3 +1300,17 @@ html[data-theme="light"] .social-link:not([href]):hover{ background:rgba(13,21,3
   .booking-intro{ font-size:1.1rem; margin-bottom:2px; }
 }
 @media (max-width: 400px){ .booking-day{ height:37px; } .booking-hint{ padding:6px 12px; } }
+
+/* Consent checkbox (booking + message form) */
+.consent{ display:grid; grid-template-columns:22px 1fr; gap:12px; align-items:start; margin:4px 0 16px; cursor:pointer; text-align:left; }
+.consent input{ position:absolute; opacity:0; width:22px; height:22px; margin:0; cursor:pointer; }
+.consent-box{ width:22px; height:22px; border-radius:6px; border:1.5px solid #cfc7b2; background:var(--paper); display:grid; place-items:center; transition:background .2s var(--ease), border-color .2s var(--ease); }
+.consent-box::after{ content:''; width:10px; height:5px; border-left:2px solid var(--navy); border-bottom:2px solid var(--navy); transform:rotate(-45deg) scale(0); margin-top:-2px; transition:transform .2s var(--ease); }
+.consent input:checked + .consent-box{ background:var(--gold-line); border-color:transparent; }
+.consent input:checked + .consent-box::after{ transform:rotate(-45deg) scale(1); }
+.consent input:focus-visible + .consent-box{ outline:2px solid var(--gold-1); outline-offset:3px; }
+.consent input:invalid:focus + .consent-box{ border-color:#c0392b; }
+.consent-text{ font-size:.8rem; line-height:1.45; color:var(--muted); }
+.consent-text .privacy-link{ color:var(--navy); font-weight:600; text-decoration:underline; text-decoration-color:var(--gold-1); text-underline-offset:3px; }
+.consent-text .privacy-link:hover{ color:var(--gold-ink); }
+.consent{ -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }

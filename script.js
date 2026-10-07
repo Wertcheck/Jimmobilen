@@ -715,8 +715,9 @@ form?.addEventListener('submit', (e) => {
         <select id="b-interest" name="interest"><option>Verkaufen</option><option>Kaufen</option><option>Bewertung</option><option>Sonstiges</option></select>
       </div>
       <div class="form-field"><label for="b-note">Nachricht <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label><textarea id="b-note" name="note" rows="3"></textarea></div>
+      <label class="consent" for="b-consent"><input type="checkbox" id="b-consent" name="consent" required><span class="consent-box" aria-hidden="true"></span><span class="consent-text">Ich willige ein, dass Jim-Rico Krüger mich zur Bearbeitung meiner Anfrage per E-Mail oder Telefon kontaktiert. Die <a href="#" class="privacy-link" target="_blank" rel="noopener">Datenschutzerklärung</a> habe ich zur Kenntnis genommen.</span></label>
       <button type="submit" class="btn btn-gold btn-lg btn-block">Termin anfragen</button>
-      <p class="form-note">Mit dem Absenden stimmen Sie der Kontaktaufnahme durch Jim-Rico Krüger zu.</p>
+      
     </form>`;
 
   const renderDone = () => `
@@ -902,3 +903,9 @@ form?.addEventListener('submit', (e) => {
   header?.addEventListener('focusin', () => header.classList.remove('is-tucked'));   // keyboard users never lose the header
   schedule();
 })();
+
+// ---------- Privacy-policy links: until a real page is linked ("#"), do not jump to the top of the page ----------
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a.privacy-link');
+  if (a && (a.getAttribute('href') || '#') === '#') e.preventDefault();
+});
