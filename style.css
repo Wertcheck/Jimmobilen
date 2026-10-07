@@ -217,13 +217,17 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
     width:200%; margin-right:-20px; margin-top:-10px; margin-bottom:-14px; z-index:1; pointer-events:none;
     container-type:size; transform:none !important;
   }
+  /* The portrait is as tall as the free space allows (up to 124 % of the screen width). Its left edge is
+     pinned to a fixed spot next to the text column, so a larger figure grows to the right and the
+     right shoulder runs off the screen edge. (0.65 = width/height ratio of the cut-out minus its left margin) */
+  .hero-photo{ --ph:min(100cqh, 124vw); }
   .hero-photo img{
     position:absolute; bottom:0; width:auto; max-width:none;
-    height:min(100%, 106vw);                 /* grows with the space, but never so big it covers the text */
-    right:calc(min(100cqh, 106vw) * -0.15);  /* figure bleeds to the screen edge */
+    height:var(--ph);
+    right:calc(52.6vw - var(--ph) * 0.65);
     filter:drop-shadow(0 14px 24px rgba(0,0,0,.4));
   }
-  .hero-photo img.logo-dark{ right:calc(min(100cqh, 106vw) * -0.125); }  /* black-suit photo has a different crop */
+  .hero-photo img.logo-dark{ right:calc(52.6vw - var(--ph) * 0.65 - var(--ph) * 0.02); }   /* black-suit photo is cropped slightly differently */
 
   .trust-badges{
     grid-column:1 / -1; grid-row:5; position:relative; z-index:2;
