@@ -229,13 +229,15 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
   .hero-photo img{
     position:absolute; bottom:0; width:auto; max-width:none;
     height:var(--ph);
-    right:calc(55.6vw - var(--ph) * 0.65);
+    --R:calc(55.6vw - var(--ph) * 0.65);
+    right:var(--R);
     filter:drop-shadow(0 14px 24px rgba(0,0,0,.4));
-    /* the photo ends at the thighs: let it fade out softly instead of showing a hard cut next to the button */
-    -webkit-mask-image:linear-gradient(to bottom, #000 calc(100% - 46px), transparent calc(100% - 6px));
-            mask-image:linear-gradient(to bottom, #000 calc(100% - 46px), transparent calc(100% - 6px));
+    /* the photo ends at the thighs and is flush with the buttons: only the bottom corner at the screen edge
+       (beside the buttons) fades out softly, the rest of the figure stays untouched */
+    -webkit-mask-image:radial-gradient(circle at calc(100% + var(--R) + 4px) 100%, transparent 4px, #000 44px);
+            mask-image:radial-gradient(circle at calc(100% + var(--R) + 4px) 100%, transparent 4px, #000 44px);
   }
-  .hero-photo img.logo-dark{ right:calc(55.6vw - var(--ph) * 0.65 + var(--ph) * 0.01); }   /* black-suit photo is cropped slightly differently */
+  .hero-photo img.logo-dark{ --R:calc(55.6vw - var(--ph) * 0.65 + var(--ph) * 0.01); }   /* black-suit photo is cropped slightly differently */
 
   .trust-badges{
     grid-column:1 / -1; grid-row:5; position:relative; z-index:2;
