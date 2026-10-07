@@ -229,13 +229,13 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
   .hero-photo img{
     position:absolute; bottom:0; width:auto; max-width:none;
     height:var(--ph);
-    right:calc(55.6vw - var(--ph) * 0.65);
+    right:calc(55.6vw - var(--ph) * 0.6014);
     filter:drop-shadow(0 14px 24px rgba(0,0,0,.4));
-    /* the photo ends at the thighs: let it fade out softly instead of showing a hard cut next to the button */
-    -webkit-mask-image:linear-gradient(to bottom, #000 calc(100% - 46px), transparent calc(100% - 6px));
-            mask-image:linear-gradient(to bottom, #000 calc(100% - 46px), transparent calc(100% - 6px));
+    /* the cut-out was extended downwards (trousers) and fades out smoothly: no hard edge next to the button */
+    -webkit-mask-image:linear-gradient(to bottom, #000 86%, rgba(0,0,0,.55) 94%, transparent 99.5%);
+            mask-image:linear-gradient(to bottom, #000 86%, rgba(0,0,0,.55) 94%, transparent 99.5%);
   }
-  .hero-photo img.logo-dark{ right:calc(55.6vw - var(--ph) * 0.65 + var(--ph) * 0.01); }   /* black-suit photo is cropped slightly differently */
+  .hero-photo img.logo-dark{ right:calc(55.6vw - var(--ph) * 0.5914); }   /* black-suit photo is cropped slightly differently */
 
   .trust-badges{
     grid-column:1 / -1; grid-row:5; position:relative; z-index:2;
@@ -1415,3 +1415,6 @@ html[data-theme="light"] .cc-reject, html[data-theme="light"] .cc-save{ color:va
 html[data-theme="light"] .cc-reject:hover{ background:rgba(13,21,34,.06); color:var(--navy); }
 @media (min-width:640px){ .cc-actions{ grid-template-columns:auto auto auto; justify-content:start; } .cc-link{ grid-column:auto; padding:0 8px; } .cc-save{ grid-column:auto; } }
 @media (prefers-reduced-motion: reduce){ .cc{ transition:opacity .2s; transform:none; } }
+
+/* Desktop: the extra 'leg' pixels of the portraits hang below the hero and are clipped — layout unchanged */
+@media (min-width:981px){ .hero-photo img{ margin-bottom:-10.45%; } }
