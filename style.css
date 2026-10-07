@@ -895,9 +895,6 @@ html[data-theme="light"] .rm-actions .btn:focus-visible{ outline-color:#0d1522; 
 .section-lede{ color:var(--muted); margin:0 auto; max-width:54ch; text-wrap:pretty; }
 /* "Meine Immobilienangebote": same gold button as the hero CTA (.btn .btn-gold), only the arrow is custom */
 .listings-subtlink{ line-height:1.2; min-height:50px; padding:0 30px; white-space:nowrap; }
-.listings-subtlink span{ display:inline-block; font-size:1.1em; transition:transform .25s var(--ease); }
-.listings-subtlink:hover span{ transform:translateX(4px); }
-
 .valuation-tool{ background:var(--navy); color:var(--cream); }
 .valuation-tool .section-head h2{ color:var(--paper); }
 .valuation-tool .section-lede{ color:var(--muted-on-navy); }
