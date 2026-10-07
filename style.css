@@ -1192,3 +1192,10 @@ html[data-theme="light"] .social-link:hover{ background:var(--gold-line); color:
   .card:active, .service-card:active{ transform:scale(.985); }
   .btn:active{ transform:scale(.98); }
 }
+
+/* Very small phones (≤ 380px): calendar cells shrink with the panel instead of forcing a minimum width */
+@media (max-width: 380px){
+  .booking-weekdays, .booking-days{ grid-template-columns:repeat(7, minmax(0, 1fr)); gap:4px; }
+  .booking-day{ min-height:0; height:38px; aspect-ratio:auto; }
+  .booking-pick, .booking-cal{ min-width:0; }
+}
