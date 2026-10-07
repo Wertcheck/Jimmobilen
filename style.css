@@ -576,6 +576,12 @@ html[data-theme="light"] .location-copy p{ color:var(--muted); }
 html[data-theme="light"] .loc-stat{ color:var(--muted); }
 html[data-theme="light"] .loc-stat span{ color:var(--navy); }
 html[data-theme="light"] .location-map-frame{ border-color:#e7e2d0; }
+/* Light theme: the street photo gets a light cream veil (the dark navy veil made the dark text unreadable) */
+html[data-theme="light"] .location-bg::after{
+  background:linear-gradient(100deg, rgba(247,244,238,.97) 0%, rgba(247,244,238,.93) 45%, rgba(247,244,238,.8) 100%);
+}
+html[data-theme="light"] .location-copy .eyebrow-light{ color:var(--gold-ink); }
+html[data-theme="light"] .location-copy p{ color:#3f4652; }
 
 /* Contact */
 html[data-theme="light"] .contact{ background:#f4f1e9; color:var(--ink); }
