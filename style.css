@@ -894,9 +894,11 @@ html[data-theme="light"] .rm-actions .btn:focus-visible{ outline-color:#0d1522; 
 .valuation-tool .section-head h2{ text-wrap:balance; }   /* no single orphaned word on the last line */
 .section-lede{ color:var(--muted); margin:0 auto; max-width:54ch; text-wrap:pretty; }
 .listings-subtlink{
-  display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px clamp(12px, 4vw, 26px); border-radius:100px; white-space:nowrap; max-width:100%;
-  font-size:clamp(.8rem, 3.85vw, 1rem); font-weight:600; color:var(--navy); border:1.5px solid var(--gold-1);
-  background:rgba(201,162,39,.09); transition:background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease);
+  display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:14px 30px; border-radius:100px;
+  white-space:nowrap; max-width:100%; min-width:min(260px, 100%);
+  font-size:.98rem; font-weight:600; letter-spacing:.01em; color:var(--navy);
+  border:1.5px solid var(--gold-1); background:rgba(201,162,39,.09);
+  transition:background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
 }
 .listings-subtlink span{ transition:transform .25s var(--ease); display:inline-block; color:var(--gold-ink); font-size:1.1em; }
 .listings-subtlink:hover{ background:var(--gold-line); border-color:transparent; box-shadow:0 14px 28px -12px rgba(201,162,39,.6); transform:translateY(-2px); }
