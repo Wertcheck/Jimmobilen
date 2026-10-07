@@ -62,7 +62,6 @@ if (rootEl.getAttribute('data-theme') === 'light') {
     const disclaimer = d.disclaimer ? `<p class="modal-disclaimer">${escapeHtml(d.disclaimer)}</p>` : '';
 
     body.innerHTML = `
-      <p class="modal-eyebrow">${escapeHtml(d.eyebrow || '')}</p>
       <h3 class="modal-title">${escapeHtml(d.title || '')}</h3>
       <p class="modal-intro">${escapeHtml(d.intro || '')}</p>
       <div class="modal-steps">${steps}</div>
@@ -72,12 +71,29 @@ if (rootEl.getAttribute('data-theme') === 'light') {
     `;
   };
 
+  // Phones: shrink the sheet's content (--ms) just far enough that the whole modal fits the screen
+  const fitPanel = () => {
+    const panel = modal.querySelector('.service-modal-panel');
+    if (!panel) return;
+    panel.style.removeProperty('--ms');
+    if (!window.matchMedia('(max-width: 600px)').matches) return;
+    let s = 1;
+    panel.style.setProperty('--ms', String(s));
+    while (panel.scrollHeight > panel.clientHeight + 1 && s > 0.66) {
+      s = Math.round((s - 0.03) * 100) / 100;
+      panel.style.setProperty('--ms', String(s));
+    }
+  };
+  window.addEventListener('resize', () => { if (modal.classList.contains('is-open')) fitPanel(); });
+
   const openModal = (key) => {
     render(key);
     lastFocused = document.activeElement;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    fitPanel();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitPanel);   // re-fit once the web fonts are in
     modal.querySelector('.service-modal-close')?.focus();
   };
 
