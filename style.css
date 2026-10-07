@@ -1226,3 +1226,9 @@ html[data-theme="light"] .social-link:not([href]):hover{ background:rgba(13,21,3
 }
 @media (max-width: 900px){ .contact-list a{ overflow-wrap:anywhere; } }
 @media (max-width: 360px){ .contact-list > li{ grid-template-columns:84px minmax(0, 1fr); } }
+
+/* Phones: every call-to-action button is exactly as wide as the content column */
+@media (max-width: 640px){
+  .listings .section-lede{ max-width:none; }
+  .listings-subtlink, .booking-done .btn{ display:flex; width:100%; min-width:0; }
+}
