@@ -784,3 +784,97 @@ form?.addEventListener('submit', (e) => {
     a.setAttribute('aria-label', `${a.dataset.social} (öffnet in neuem Tab)`);
   });
 })();
+
+// ==========================================================
+// Scroll motion (phones / small tablets) — "motion that whispers"
+//   · section heads: eyebrow tightens, headline rises out of a mask, lede follows
+//   · photos drift slightly inside their frames while you scroll (parallax)
+//   · the card nearest the middle of the screen gets a gold focus ring (replaces :hover on touch)
+//   · roadmap steps light up as you reach them
+//   · header tucks away while reading downwards, returns on the first scroll up
+// Everything is gated by CSS (max-width + prefers-reduced-motion) and by the checks below.
+// ==========================================================
+(function initScrollMotion() {
+  const mobile = window.matchMedia('(max-width: 900px)');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const active = () => mobile.matches && !reduce.matches;
+
+  // ---- section heads: reveal once when they enter ----
+  const heads = document.querySelectorAll('[data-mx]');
+  const headIO = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('mx-in'); headIO.unobserve(e.target); } });
+  }, { threshold: 0.15, rootMargin: '0px 0px 4% 0px' });
+  heads.forEach((el) => headIO.observe(el));
+
+  // ---- scroll-linked effects share one rAF-throttled loop ----
+  const par = Array.from(document.querySelectorAll('[data-parallax]'));
+  const focusables = Array.from(document.querySelectorAll('.card, .service-card'));
+  const steps = Array.from(document.querySelectorAll('.roadmap-step'));
+  const header = document.getElementById('siteHeader');
+  const navEl = document.getElementById('mainNav');
+
+  const visible = new Set();
+  const visIO = new IntersectionObserver((entries) => {
+    entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
+    schedule();
+  }, { rootMargin: '15% 0px 15% 0px' });
+  par.forEach((el) => visIO.observe(el));
+
+  let ticking = false, lastY = window.scrollY, focused = null;
+  const schedule = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+
+  const update = () => {
+    ticking = false;
+    const vh = window.innerHeight;
+    const y = window.scrollY;
+
+    if (!active()) {                                            // desktop / reduced motion: leave everything static
+      par.forEach((el) => el.style.removeProperty('--py'));
+      focused?.classList.remove('is-focus'); focused = null;
+      steps.forEach((s) => s.classList.add('is-reached'));
+      header?.classList.remove('is-tucked');
+      lastY = y;
+      return;
+    }
+
+    // parallax: --py goes from -1 (element entering at the bottom) to 1 (leaving at the top)
+    visible.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      const p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+      el.style.setProperty('--py', Math.max(-1, Math.min(1, p)).toFixed(3));
+    });
+
+    // focus ring: the card closest to the middle of the screen (inside a central band)
+    let best = null, bestD = vh * 0.3;
+    focusables.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;
+      const d = Math.abs(r.top + r.height / 2 - vh * 0.5);
+      if (d < bestD) { best = el; bestD = d; }
+    });
+    if (best !== focused) { focused?.classList.remove('is-focus'); best?.classList.add('is-focus'); focused = best; }
+
+    // roadmap: a step counts as reached once its node passes ~62 % of the screen height
+    steps.forEach((s) => {
+      const n = s.querySelector('.roadmap-node');
+      if (n && n.getBoundingClientRect().top < vh * 0.62) s.classList.add('is-reached');
+      else s.classList.remove('is-reached');
+    });
+
+    // header: tuck away while reading down, back on the first move up (never while the menu is open)
+    if (header) {
+      const dy = y - lastY;
+      const menuOpen = navEl?.classList.contains('open');
+      if (menuOpen || y < 140 || dy < -4) header.classList.remove('is-tucked');
+      else if (dy > 6 && y > 260) header.classList.add('is-tucked');
+    }
+    lastY = y;
+  };
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  mobile.addEventListener?.('change', schedule);
+  reduce.addEventListener?.('change', schedule);
+  header?.addEventListener('focusin', () => header.classList.remove('is-tucked'));   // keyboard users never lose the header
+  schedule();
+})();
