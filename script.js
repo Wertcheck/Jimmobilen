@@ -795,14 +795,16 @@ form?.addEventListener('submit', (e) => {
 // Everything is gated by CSS (max-width + prefers-reduced-motion) and by the checks below.
 // ==========================================================
 (function initScrollMotion() {
+  document.documentElement.classList.add('mx-ready');   // CSS hides content for animation ONLY while this class exists
   const mobile = window.matchMedia('(max-width: 900px)');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   const active = () => mobile.matches && !reduce.matches;
 
   // ---- section heads: reveal once when they enter ----
   const heads = document.querySelectorAll('[data-mx]');
+  const pendingHeads = new Set(heads);
   const headIO = new IntersectionObserver((entries) => {
-    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('mx-in'); headIO.unobserve(e.target); } });
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('mx-in'); pendingHeads.delete(e.target); headIO.unobserve(e.target); } });
   }, { threshold: 0.15, rootMargin: '0px 0px 4% 0px' });
   heads.forEach((el) => headIO.observe(el));
 
@@ -827,6 +829,12 @@ form?.addEventListener('submit', (e) => {
     ticking = false;
     const vh = window.innerHeight;
     const y = window.scrollY;
+
+    // safety net: a head that is on screen is revealed even if the observer has not reported it
+    pendingHeads.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < vh * 0.97 && r.bottom > 0) { el.classList.add('mx-in'); pendingHeads.delete(el); headIO.unobserve(el); }
+    });
 
     if (!active()) {                                            // desktop / reduced motion: leave everything static
       par.forEach((el) => el.style.removeProperty('--py'));
