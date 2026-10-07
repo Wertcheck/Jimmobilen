@@ -224,10 +224,10 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
   .hero-photo img{
     position:absolute; bottom:0; width:auto; max-width:none;
     height:var(--ph);
-    right:calc(52.6vw - var(--ph) * 0.65);
+    right:calc(55.6vw - var(--ph) * 0.65);
     filter:drop-shadow(0 14px 24px rgba(0,0,0,.4));
   }
-  .hero-photo img.logo-dark{ right:calc(52.6vw - var(--ph) * 0.65 - var(--ph) * 0.02); }   /* black-suit photo is cropped slightly differently */
+  .hero-photo img.logo-dark{ right:calc(55.6vw - var(--ph) * 0.65 - var(--ph) * 0.02); }   /* black-suit photo is cropped slightly differently */
 
   .trust-badges{
     grid-column:1 / -1; grid-row:5; position:relative; z-index:2;
