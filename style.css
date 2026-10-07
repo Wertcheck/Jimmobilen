@@ -1206,8 +1206,8 @@ html[data-theme="light"] .social-link:not([href]):hover{ background:rgba(13,21,3
    right after "Termin vereinbaren" / the header calendar button (eye-catcher)
    ========================================================== */
 @media (max-width: 900px){
-  .contact{ padding:20px 0 56px; scroll-margin-top:8px; }
-  #kontakt{ scroll-margin-top:8px; }
+  .contact{ padding:22px 0 56px; }
+  #kontakt{ scroll-margin-top:-8px; }   /* land slightly inside the section: no sliver of the previous one on top */
   .contact-grid{ gap:16px; }
   .contact-copy .eyebrow{ margin-bottom:6px; font-size:.72rem; }
   .contact-copy h2{ font-size:clamp(1.3rem, 5.6vw, 1.55rem); line-height:1.15; margin:0 0 6px; max-width:none; }
