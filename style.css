@@ -220,7 +220,7 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
   /* The portrait is as tall as the free space allows (up to 124 % of the screen width). Its left edge is
      pinned to a fixed spot next to the text column, so a larger figure grows to the right and the
      right shoulder runs off the screen edge. (0.65 = width/height ratio of the cut-out minus its left margin) */
-  .hero-photo{ --ph:min(100cqh, 124vw); }
+  .hero-photo{ --ph:min(100cqh, 116vw); }
   .hero-photo img{
     position:absolute; bottom:0; width:auto; max-width:none;
     height:var(--ph);
