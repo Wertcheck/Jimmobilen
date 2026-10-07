@@ -5,6 +5,11 @@
    Display: Fraunces · Body: Work Sans
    ========================================================== */
 
+/* Fonts are self-hosted (no connection to Google Fonts) */
+@font-face{ font-family:'Fraunces'; font-style:normal; font-weight:100 900; font-display:swap; src:url('assets/fonts/fraunces-latin-opsz-normal.woff2') format('woff2'); }
+@font-face{ font-family:'Fraunces'; font-style:italic; font-weight:100 900; font-display:swap; src:url('assets/fonts/fraunces-latin-opsz-italic.woff2') format('woff2'); }
+@font-face{ font-family:'Work Sans'; font-style:normal; font-weight:100 900; font-display:swap; src:url('assets/fonts/work-sans-latin-wght-normal.woff2') format('woff2'); }
+
 :root{
   --navy: #0d1522;
   --navy-2: #162335;
@@ -1314,3 +1319,48 @@ html[data-theme="light"] .social-link:not([href]):hover{ background:rgba(13,21,3
 .consent-text .privacy-link{ color:var(--navy); font-weight:600; text-decoration:underline; text-decoration-color:var(--gold-1); text-underline-offset:3px; }
 .consent-text .privacy-link:hover{ color:var(--gold-ink); }
 .consent{ -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
+
+/* Map placeholder (two-step: no Google connection before the click) */
+.map-consent{ display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px; min-height:280px; padding:28px 22px; background:var(--navy-2); color:var(--cream); line-height:1.5; }
+.map-consent-title{ font-family:'Fraunces', serif; font-size:1.2rem; margin:0; color:var(--paper); }
+.map-consent-text{ font-size:.85rem; color:var(--muted-on-navy); max-width:38ch; margin:0 0 6px; }
+.map-consent-text a{ color:var(--gold-2); text-decoration:underline; text-underline-offset:3px; }
+html[data-theme="light"] .map-consent{ background:#ffffff; color:var(--ink); }
+html[data-theme="light"] .map-consent-title{ color:var(--navy); }
+html[data-theme="light"] .map-consent-text{ color:var(--muted); }
+html[data-theme="light"] .map-consent-text a{ color:var(--gold-ink); }
+
+/* ==========================================================
+   LEGAL PAGE (datenschutz.html)
+   ========================================================== */
+.legal-page .site-header{ position:static; }
+.legal{ padding:48px 0 80px; background:var(--paper); }
+.legal-inner{ max-width:820px; }
+.legal h1{ font-size:clamp(2rem, 6vw, 2.8rem); margin:0 0 .3em; }
+.legal h2{ font-size:1.35rem; margin:2em 0 .5em; }
+.legal p, .legal li, .legal address{ color:var(--ink); font-size:.97rem; line-height:1.7; }
+.legal address{ font-style:normal; margin:0 0 1em; padding:16px 18px; background:var(--cream); border-left:3px solid var(--gold-1); border-radius:var(--radius-sm); }
+.legal ul, .legal ol{ margin:0 0 1em; padding-left:1.25em; list-style:disc; }
+.legal ol{ list-style:decimal; }
+.legal li{ margin:.3em 0; }
+.legal a:not(.btn){ color:var(--gold-ink); text-decoration:underline; text-underline-offset:3px; overflow-wrap:anywhere; }
+.legal-lede{ font-size:1.05rem !important; color:var(--muted) !important; }
+.legal-stand{ font-size:.82rem !important; color:var(--muted) !important; margin-bottom:1.4em; }
+.legal-toc{ margin:1.5em 0 .5em; padding:16px 18px; background:var(--cream); border-radius:var(--radius-sm); }
+.legal-toc ol{ margin:0; columns:1; }
+.legal-toc a{ text-decoration:none !important; }
+@media (min-width:700px){ .legal-toc ol{ columns:2; } }
+.legal-todo{ background:#fff3b0; color:#4a3b00; padding:1px 5px; border-radius:4px; }
+.legal-draft{ padding:14px 16px; background:#fff8dc; border:1px solid #ecd98a; border-radius:var(--radius-sm); color:#4a3b00 !important; font-size:.88rem !important; }
+.legal-draft-small{ font-size:.85rem !important; }
+.legal-back{ margin-top:2.5em; }
+html[data-theme="light"] .legal{ background:#fbf9f4; }
+html[data-theme="dark"] .legal, html:not([data-theme="light"]) .legal{ background:var(--navy); }
+html:not([data-theme="light"]) .legal p, html:not([data-theme="light"]) .legal li, html:not([data-theme="light"]) .legal address{ color:var(--cream); }
+html:not([data-theme="light"]) .legal h1, html:not([data-theme="light"]) .legal h2{ color:var(--paper); }
+html:not([data-theme="light"]) .legal address, html:not([data-theme="light"]) .legal-toc{ background:var(--navy-2); }
+html:not([data-theme="light"]) .legal a:not(.btn){ color:var(--gold-2); }
+html:not([data-theme="light"]) .legal-lede, html:not([data-theme="light"]) .legal-stand{ color:var(--muted-on-navy) !important; }
+html:not([data-theme="light"]) .legal .eyebrow{ color:var(--gold-2); }
+.legal-page .header-actions .btn{ white-space:nowrap; padding:12px 22px; }
+@media (max-width:900px){ .legal-page .header-actions .btn-gold{ width:auto; height:auto; border-radius:100px; padding:11px 18px; } }
