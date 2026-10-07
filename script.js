@@ -530,7 +530,7 @@ form?.addEventListener('submit', (e) => {
     lede.style.fontSize = '';
     if (!mq.matches) return;
     const minH = parseFloat(getComputedStyle(hero).minHeight) || 0;
-    let lo = 12, hi = 18;
+    let lo = 10.5, hi = 18;
     for (let i = 0; i < 8; i++) {
       const mid = (lo + hi) / 2;
       lede.style.fontSize = mid + 'px';
