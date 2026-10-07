@@ -910,34 +910,62 @@ document.addEventListener('click', (e) => {
   if (a && (a.getAttribute('href') || '#') === '#') e.preventDefault();
 });
 
-// ---------- Map: loaded only after a click (no connection to Google before that) ----------
-(function initMapConsent() {
-  const box = document.getElementById('mapConsent');
-  const btn = document.getElementById('mapLoad');
-  if (!box || !btn) return;
-  btn.addEventListener('click', () => {
+// ---------- Consent management ("Cookie bar") ----------
+// Categories: necessary (always on) · external media (Google Maps). Nothing else is collected.
+// The choice is stored in localStorage ("jim-consent"). With media consent the map loads right on page load,
+// on every visit; without it the map stays a placeholder. "Cookie-Einstellungen" in the footer reopens the bar.
+(function initConsent() {
+  const KEY = 'jim-consent';
+  const bar = document.getElementById('consent');
+  if (!bar) return;
+  const $ = (id) => document.getElementById(id);
+  const read = () => { try { const v = JSON.parse(localStorage.getItem(KEY) || 'null'); return v && v.v === 1 ? v : null; } catch (e) { return null; } };
+  const write = (media) => { try { localStorage.setItem(KEY, JSON.stringify({ v: 1, media: !!media, t: new Date().toISOString().slice(0, 10) })); } catch (e) { /* ignore */ } };
+
+  const mapBox = $('mapConsent');
+  const loadMap = () => {
+    const slot = $('mapConsent');
+    if (!slot || document.querySelector('iframe.location-map')) return;
     const f = document.createElement('iframe');
     f.className = 'location-map';
     f.title = 'Google Maps: Charlottenburg, Berlin';
     f.src = 'https://www.google.com/maps?q=Charlottenburg,Berlin&output=embed';
     f.referrerPolicy = 'no-referrer-when-downgrade';
     f.allowFullscreen = true;
-    box.replaceWith(f);
-  });
-})();
+    slot.replaceWith(f);
+  };
+  const unloadMap = () => {                          // withdrawing consent: remove the embed again
+    const f = document.querySelector('iframe.location-map');
+    if (!f || !mapBox) return;
+    f.replaceWith(mapBox);
+  };
+  const apply = (media) => { if (media) loadMap(); else unloadMap(); };
 
-// ---------- Privacy notice (information only: no cookies, no tracking) ----------
-// Remembers "understood" in localStorage ("jim-notice"); the footer link "Cookie-Hinweis" shows it again.
-(function initPrivacyNotice() {
-  const box = document.getElementById('privacyNotice');
-  const ok = document.getElementById('noticeOk');
-  const again = document.getElementById('noticeReopen');
-  if (!box || !ok) return;
-  const get = () => { try { return localStorage.getItem('jim-notice') === '1'; } catch (e) { return false; } };
-  const set = () => { try { localStorage.setItem('jim-notice', '1'); } catch (e) { /* ignore */ } };
-  const show = () => { box.hidden = false; requestAnimationFrame(() => box.classList.add('is-in')); };
-  const hide = () => { box.classList.remove('is-in'); setTimeout(() => { box.hidden = true; }, 300); };
-  if (!get()) setTimeout(show, 1200);
-  ok.addEventListener('click', () => { set(); hide(); });
-  again?.addEventListener('click', show);
+  const show = (focusFirst) => {
+    const c = read();
+    $('ccMedia').checked = !!(c && c.media);
+    bar.hidden = false;
+    requestAnimationFrame(() => bar.classList.add('is-in'));
+    if (focusFirst) $('ccAll').focus({ preventScroll: true });
+  };
+  const hide = () => { bar.classList.remove('is-in'); setTimeout(() => { bar.hidden = true; }, 300); };
+  const choose = (media) => { write(media); apply(media); hide(); };
+
+  $('ccAll').addEventListener('click', () => choose(true));
+  $('ccNone').addEventListener('click', () => choose(false));
+  $('ccSave').addEventListener('click', () => choose($('ccMedia').checked));
+  $('ccMore').addEventListener('click', () => {
+    const open = $('ccSettings').hidden;
+    $('ccSettings').hidden = !open;
+    $('ccSave').hidden = !open;
+    $('ccMore').setAttribute('aria-expanded', String(open));
+    $('ccMore').textContent = open ? 'Weniger anzeigen' : 'Einstellungen';
+  });
+  $('consentReopen')?.addEventListener('click', () => show(true));
+  mapBox?.querySelector('#mapLoad')?.addEventListener('click', () => { $('ccSettings').hidden = false; $('ccSave').hidden = false; $('ccMore').setAttribute('aria-expanded', 'true'); show(true); });
+  bar.addEventListener('keydown', (e) => { if (e.key === 'Escape' && read()) hide(); });
+
+  const saved = read();
+  if (saved) apply(saved.media);                    // returning visitor: map loads immediately (if allowed)
+  else setTimeout(() => show(false), 600);          // first visit: ask
 })();

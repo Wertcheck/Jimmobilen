@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <link rel="preload" href="assets/fonts/work-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=20261007d">
+<link rel="stylesheet" href="style.css?v=20261007e">
 <script>
   // Apply saved theme before paint to avoid a flash of the wrong theme
   (function(){
@@ -248,8 +248,8 @@
     <div class="location-map-frame">
       <div class="map-consent" id="mapConsent">
         <p class="map-consent-title">Karte von Google Maps</p>
-        <p class="map-consent-text">Beim Laden der Karte werden Daten (u.&nbsp;a. Ihre IP-Adresse) an Google übertragen. Mehr dazu in der <a href="datenschutz.html#maps" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
-        <button type="button" class="btn btn-gold" id="mapLoad">Karte laden</button>
+        <p class="map-consent-text">Die Karte wird angezeigt, sobald Sie „Externe Medien“ in den Cookie-Einstellungen erlauben. Dabei werden Daten an Google übertragen (<a href="datenschutz.html#maps" target="_blank" rel="noopener">Datenschutzerklärung</a>).</p>
+        <button type="button" class="btn btn-gold" id="mapLoad">Externe Medien erlauben</button>
       </div>
     </div>
   </div>
@@ -599,7 +599,7 @@
       <a href="#kontakt">Kontakt</a>
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
-      <button type="button" class="footer-link-btn" id="noticeReopen">Cookie-Hinweis</button>
+      <button type="button" class="footer-link-btn" id="consentReopen">Cookie-Einstellungen</button>
     </nav>
     <!--
       SOCIAL LINKS: die Profil-Adressen bei data-url eintragen (komplette https://-Adresse).
@@ -680,17 +680,23 @@
   </div>
 </div>
 
-<!-- ============ DATENSCHUTZ-/COOKIE-HINWEIS (kein Tracking, keine Cookies – nur Information) ============ -->
-<aside class="privacy-notice" id="privacyNotice" role="region" aria-labelledby="pnTitle" hidden>
-  <p class="pn-title" id="pnTitle">Datenschutz &amp; Cookies</p>
-  <p class="pn-text">Diese Website setzt <strong>keine Cookies</strong> und nutzt keine Tracking- oder Analyse-Tools. Gespeichert wird nur Ihre Design-Auswahl (hell/dunkel). Die Karte lädt erst nach Ihrem Klick.</p>
-  <div class="pn-actions">
-    <button type="button" class="btn btn-gold" id="noticeOk">Verstanden</button>
-    <a href="datenschutz.html" class="pn-link">Datenschutzerklärung</a>
+<!-- ============ COOKIE-/DATENSCHUTZ-EINSTELLUNGEN (Einwilligungsabfrage) ============ -->
+<div class="cc" id="consent" role="dialog" aria-modal="false" aria-labelledby="ccTitle" hidden>
+  <p class="cc-title" id="ccTitle">Wir respektieren Ihre Privatsphäre</p>
+  <p class="cc-text">Diese Website nutzt notwendige Speicherfunktionen (z.&nbsp;B. Ihre Design-Auswahl). Mit Ihrer Einwilligung laden wir zusätzlich externe Medien wie die Google-Karte. Dabei werden Daten an Google übertragen. Ihre Auswahl können Sie jederzeit ändern. Mehr in der <a href="datenschutz.html">Datenschutzerklärung</a> und im <a href="impressum.html">Impressum</a>.</p>
+  <div class="cc-settings" id="ccSettings" hidden>
+    <label class="cc-row"><span class="cc-row-text"><strong>Notwendig</strong><small>Design-Auswahl, Ihre Einstellungen hier. Immer aktiv.</small></span><span class="cc-switch"><input type="checkbox" checked disabled aria-label="Notwendig (immer aktiv)"><i></i></span></label>
+    <label class="cc-row"><span class="cc-row-text"><strong>Externe Medien</strong><small>Google Maps (Anbieter: Google Ireland Limited, Datenübermittlung in die USA möglich).</small></span><span class="cc-switch"><input type="checkbox" id="ccMedia" aria-label="Externe Medien"><i></i></span></label>
   </div>
-</aside>
+  <div class="cc-actions">
+    <button type="button" class="btn btn-gold" id="ccAll">Alle akzeptieren</button>
+    <button type="button" class="btn btn-outline cc-reject" id="ccNone">Nur notwendige</button>
+    <button type="button" class="cc-link" id="ccMore" aria-expanded="false" aria-controls="ccSettings">Einstellungen</button>
+    <button type="button" class="btn btn-outline cc-save" id="ccSave" hidden>Auswahl speichern</button>
+  </div>
+</div>
 
-<script src="script.js?v=20261007d"></script>
+<script src="script.js?v=20261007e"></script>
 <script>
   // Fail-safe: only if script.js did not start (e.g. a script error), reveal everything so
   // content can never stay hidden. When the motion script runs it sets window.__jimMotion.
