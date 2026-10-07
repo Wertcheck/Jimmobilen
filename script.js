@@ -192,18 +192,29 @@ revealTargets.forEach((el, i) => {
   el.style.transitionDelay = `${Math.min(i % 4, 3) * 70}ms`;
 });
 
+// Elements that are clipped away until revealed (clip-path wipe) are invisible to IntersectionObserver,
+// so their reveal is triggered by a neighbour that is always laid out: the surrounding grid.
+const triggerFor = (el) => (el.classList.contains('reveal-wipe') ? (el.closest('.about-grid') || el.parentElement) : el);
+const revealMap = new Map();                       // trigger element -> elements to reveal
+revealTargets.forEach((el) => {
+  const t = triggerFor(el);
+  if (!revealMap.has(t)) revealMap.set(t, []);
+  revealMap.get(t).push(el);
+});
+
 const io = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      io.unobserve(entry.target);
+    if (!entry.isIntersecting) return;
+    io.unobserve(entry.target);
+    (revealMap.get(entry.target) || []).forEach((el) => {
+      el.classList.add('is-visible');
       // the stagger delay is only for the entrance — clear it so hover transitions stay snappy
-      setTimeout(() => { entry.target.style.transitionDelay = ''; }, 1000);
-    }
+      setTimeout(() => { el.style.transitionDelay = ''; }, 1000);
+    });
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.08, rootMargin: '0px 0px 6% 0px' });
 
-revealTargets.forEach(el => io.observe(el));
+revealMap.forEach((_, t) => io.observe(t));
 window.__jimMotion = true;   // tells the inline fail-safe in index.html that the motion script is running
 
 // ---------- Roadmap: scroll-linked progress line ----------
@@ -380,7 +391,19 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
     rafId = requestAnimationFrame(tick);
   };
 
+  // House photo: loaded on demand (and once when the browser is idle) — only the variant of the active theme
+  const loadHouse = () => {
+    modal.querySelectorAll('.rm-house img[data-src]').forEach((img) => {
+      if (getComputedStyle(img).display === 'none') return;
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    });
+  };
+  const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 2500));
+  window.addEventListener('load', () => idle(loadHouse));
+
   const openModal = (url, trigger) => {
+    loadHouse();
     targetUrl = url; lastTrigger = trigger || null; blocked = false;
     continueLink.href = url;
     status.textContent = STATUS_DEFAULT;
@@ -784,7 +807,7 @@ form?.addEventListener('submit', (e) => {
   const heads = document.querySelectorAll('[data-mx]');
   const headIO = new IntersectionObserver((entries) => {
     entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('mx-in'); headIO.unobserve(e.target); } });
-  }, { threshold: 0.25, rootMargin: '0px 0px -8% 0px' });
+  }, { threshold: 0.15, rootMargin: '0px 0px 4% 0px' });
   heads.forEach((el) => headIO.observe(el));
 
   // ---- scroll-linked effects share one rAF-throttled loop ----
