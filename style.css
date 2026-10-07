@@ -1199,3 +1199,8 @@ html[data-theme="light"] .social-link:hover{ background:var(--gold-line); color:
   .booking-day{ min-height:0; height:38px; aspect-ratio:auto; }
   .booking-pick, .booking-cal{ min-width:0; }
 }
+
+/* Icons without an address yet: visible, but not interactive */
+.social-link:not([href]){ cursor:default; }
+.social-link:not([href]):hover{ background:rgba(247,244,238,.06); color:var(--gold-2); border-color:rgba(232,199,102,.2); transform:none; }
+html[data-theme="light"] .social-link:not([href]):hover{ background:rgba(13,21,34,.04); color:var(--gold-ink); border-color:#e7e2d0; }
