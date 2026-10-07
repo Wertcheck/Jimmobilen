@@ -1279,3 +1279,24 @@ html[data-theme="light"] .social-link:not([href]):hover{ background:rgba(13,21,3
   .service-modal.is-open .service-modal-panel{ transform:none; }
   .service-modal-panel{ padding-bottom:calc(20px * var(--ms)); }
 }
+
+/* Phones: the whole booking calendar (month, days and the hint) fits on one screen after "Termin" is tapped */
+@media (max-width: 900px){
+  .contact-panel{ padding-bottom:18px; }
+  .booking-pick{ gap:12px; }
+  .booking-sub{ margin-bottom:10px; }
+  .booking-nav{ width:36px; height:36px; }
+  .booking-month{ margin-bottom:4px; }
+  .booking-weekdays{ margin-bottom:2px; }
+  .booking-days{ gap:4px; }
+  .booking-day{ aspect-ratio:auto; height:40px; min-height:0; border-radius:10px; font-size:.9rem; }
+  .booking-hint{ padding:8px 12px; font-size:.82rem; line-height:1.3; }
+  .booking-slots-title{ margin-bottom:8px; }
+}
+@media (max-width: 900px){
+  .contact-grid{ gap:10px; }
+  .contact-tabpanel{ padding-top:10px; }
+  .contact-tab{ padding-top:9px; padding-bottom:9px; }
+  .booking-intro{ font-size:1.1rem; margin-bottom:2px; }
+}
+@media (max-width: 400px){ .booking-day{ height:37px; } .booking-hint{ padding:6px 12px; } }

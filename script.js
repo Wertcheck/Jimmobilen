@@ -684,7 +684,7 @@ form?.addEventListener('submit', (e) => {
 
     return `
       <p class="booking-intro">Wählen Sie Ihren Wunschtermin</p>
-      <p class="booking-sub">Kostenlos &amp; unverbindlich – ich bestätige Ihnen den Termin persönlich.</p>
+      <p class="booking-sub">Kostenlos &amp; unverbindlich.</p>
       <div class="booking-pick">
         <div class="booking-cal">
           <div class="booking-month">
