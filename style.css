@@ -232,11 +232,13 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
     --R:calc(55.6vw - var(--ph) * 0.65);
     right:var(--R);
     filter:drop-shadow(0 14px 24px rgba(0,0,0,.4));
-    /* the photo ends at the thighs and is flush with the buttons: only the bottom corner at the screen edge
-       (beside the buttons) fades out softly, the rest of the figure stays untouched */
-    -webkit-mask-image:radial-gradient(circle at calc(100% + var(--R) + 4px) 100%, transparent 4px, #000 44px);
-            mask-image:radial-gradient(circle at calc(100% + var(--R) + 4px) 100%, transparent 4px, #000 44px);
   }
+  /* the photo ends at the thighs, flush with the first button. At the right screen edge (beside the button) the trousers
+     are carried down behind the button with a plain dark block, so no flat cut is visible */
+  .hero-photo::after{
+    content:""; position:absolute; right:20px; bottom:-24px; width:22%; height:25px; background:#02020a; z-index:-1;
+  }
+  html[data-theme="light"] .hero-photo::after{ background:#030201; }
   .hero-photo img.logo-dark{ --R:calc(55.6vw - var(--ph) * 0.65 + var(--ph) * 0.01); }   /* black-suit photo is cropped slightly differently */
 
   .trust-badges{
