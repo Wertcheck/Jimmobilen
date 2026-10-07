@@ -680,7 +680,7 @@ form?.addEventListener('submit', (e) => {
         + CFG.slots.map((s) => taken.has(s)
           ? `<button type="button" class="booking-slot is-taken" disabled aria-label="${s} Uhr, belegt">${s} Uhr</button>`
           : `<button type="button" class="booking-slot" data-slot="${s}">${s} Uhr</button>`).join('') + '</div>'
-      : '<p class="booking-hint">Wählen Sie links einen Tag – danach erscheinen die freien Uhrzeiten.</p>';
+      : '<p class="booking-hint">Wählen Sie einen Tag – danach erscheinen die freien Uhrzeiten.</p>';
 
     return `
       <p class="booking-intro">Wählen Sie Ihren Wunschtermin</p>
