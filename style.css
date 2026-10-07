@@ -230,15 +230,9 @@ html[data-theme="light"] .hero-photo img.logo-dark{ display:block; }
     position:absolute; bottom:0; width:auto; max-width:none;
     height:var(--ph);
     --R:calc(55.6vw - var(--ph) * 0.65);
-    right:var(--R);
+    right:calc(var(--R) + 18px);   /* nudged left so the trousers end inside the button width and vanish behind it */
     filter:drop-shadow(0 14px 24px rgba(0,0,0,.4));
   }
-  /* the photo ends at the thighs, flush with the first button. At the right screen edge (beside the button) the trousers
-     are carried down behind the button with a plain dark block, so no flat cut is visible */
-  .hero-photo::after{
-    content:""; position:absolute; right:20px; bottom:-24px; width:22%; height:25px; background:#02020a; z-index:-1;
-  }
-  html[data-theme="light"] .hero-photo::after{ background:#030201; }
   .hero-photo img.logo-dark{ --R:calc(55.6vw - var(--ph) * 0.65 + var(--ph) * 0.01); }   /* black-suit photo is cropped slightly differently */
 
   .trust-badges{
