@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <link rel="preload" href="assets/fonts/work-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=20261007c">
+<link rel="stylesheet" href="style.css?v=20261007d">
 <script>
   // Apply saved theme before paint to avoid a flash of the wrong theme
   (function(){
@@ -597,8 +597,9 @@
       <a href="#ueber-mich">Über mich</a>
       <a href="#leistungen">Leistungen</a>
       <a href="#kontakt">Kontakt</a>
-      <a href="#">Impressum</a>
+      <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
+      <button type="button" class="footer-link-btn" id="noticeReopen">Cookie-Hinweis</button>
     </nav>
     <!--
       SOCIAL LINKS: die Profil-Adressen bei data-url eintragen (komplette https://-Adresse).
@@ -679,7 +680,17 @@
   </div>
 </div>
 
-<script src="script.js?v=20261007c"></script>
+<!-- ============ DATENSCHUTZ-/COOKIE-HINWEIS (kein Tracking, keine Cookies – nur Information) ============ -->
+<aside class="privacy-notice" id="privacyNotice" role="region" aria-labelledby="pnTitle" hidden>
+  <p class="pn-title" id="pnTitle">Datenschutz &amp; Cookies</p>
+  <p class="pn-text">Diese Website setzt <strong>keine Cookies</strong> und nutzt keine Tracking- oder Analyse-Tools. Gespeichert wird nur Ihre Design-Auswahl (hell/dunkel). Die Karte lädt erst nach Ihrem Klick.</p>
+  <div class="pn-actions">
+    <button type="button" class="btn btn-gold" id="noticeOk">Verstanden</button>
+    <a href="datenschutz.html" class="pn-link">Datenschutzerklärung</a>
+  </div>
+</aside>
+
+<script src="script.js?v=20261007d"></script>
 <script>
   // Fail-safe: only if script.js did not start (e.g. a script error), reveal everything so
   // content can never stay hidden. When the motion script runs it sets window.__jimMotion.

@@ -1364,3 +1364,30 @@ html:not([data-theme="light"]) .legal-lede, html:not([data-theme="light"]) .lega
 html:not([data-theme="light"]) .legal .eyebrow{ color:var(--gold-2); }
 .legal-page .header-actions .btn{ white-space:nowrap; padding:12px 22px; }
 @media (max-width:900px){ .legal-page .header-actions .btn-gold{ width:auto; height:auto; border-radius:100px; padding:11px 18px; } }
+
+/* ==========================================================
+   PRIVACY NOTICE + footer link button
+   ========================================================== */
+.footer-link-btn{ background:none; border:0; padding:0; cursor:pointer; font:inherit; color:var(--muted-on-navy); font-size:.85rem; }
+.footer-link-btn:hover{ color:var(--gold-2); }
+html[data-theme="light"] .footer-link-btn{ color:var(--muted); }
+html[data-theme="light"] .footer-link-btn:hover{ color:var(--gold-ink); }
+.privacy-notice{
+  position:fixed; z-index:180; left:12px; right:12px; bottom:max(12px, env(safe-area-inset-bottom)); max-width:520px; margin:0 auto;
+  background:var(--navy-2); color:var(--cream); border:1px solid rgba(232,199,102,.28); border-radius:16px; padding:16px 18px 14px;
+  box-shadow:0 24px 60px -18px rgba(0,0,0,.6); opacity:0; transform:translateY(16px); transition:opacity .3s var(--ease), transform .35s var(--ease);
+}
+.privacy-notice[hidden]{ display:none; }
+.privacy-notice.is-in{ opacity:1; transform:none; }
+.pn-title{ font-family:'Fraunces', serif; font-size:1.05rem; color:var(--paper); margin:0 0 4px; }
+.pn-text{ font-size:.82rem; line-height:1.5; color:var(--muted-on-navy); margin:0 0 12px; }
+.pn-text strong{ color:var(--cream); }
+.pn-actions{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.pn-actions .btn{ min-height:42px; padding:0 24px; }
+.pn-link{ font-size:.82rem; color:var(--gold-2); text-decoration:underline; text-underline-offset:3px; }
+html[data-theme="light"] .privacy-notice{ background:#ffffff; color:var(--ink); border-color:#e7e2d0; box-shadow:0 24px 60px -22px rgba(13,21,34,.35); }
+html[data-theme="light"] .pn-title{ color:var(--navy); }
+html[data-theme="light"] .pn-text{ color:var(--muted); }
+html[data-theme="light"] .pn-text strong{ color:var(--navy); }
+html[data-theme="light"] .pn-link{ color:var(--gold-ink); }
+@media (prefers-reduced-motion: reduce){ .privacy-notice{ transition:opacity .2s; transform:none; } }

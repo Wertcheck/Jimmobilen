@@ -925,3 +925,19 @@ document.addEventListener('click', (e) => {
     box.replaceWith(f);
   });
 })();
+
+// ---------- Privacy notice (information only: no cookies, no tracking) ----------
+// Remembers "understood" in localStorage ("jim-notice"); the footer link "Cookie-Hinweis" shows it again.
+(function initPrivacyNotice() {
+  const box = document.getElementById('privacyNotice');
+  const ok = document.getElementById('noticeOk');
+  const again = document.getElementById('noticeReopen');
+  if (!box || !ok) return;
+  const get = () => { try { return localStorage.getItem('jim-notice') === '1'; } catch (e) { return false; } };
+  const set = () => { try { localStorage.setItem('jim-notice', '1'); } catch (e) { /* ignore */ } };
+  const show = () => { box.hidden = false; requestAnimationFrame(() => box.classList.add('is-in')); };
+  const hide = () => { box.classList.remove('is-in'); setTimeout(() => { box.hidden = true; }, 300); };
+  if (!get()) setTimeout(show, 1200);
+  ok.addEventListener('click', () => { set(); hide(); });
+  again?.addEventListener('click', show);
+})();
