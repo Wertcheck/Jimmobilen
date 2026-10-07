@@ -941,7 +941,7 @@ html[data-theme="light"] .valuation-tool .card{ background:#ffffff; }   /* card 
 /* ---- Responsive: same breakpoints for both sections ---- */
 @media (max-width: 900px){
   .listings, .valuation-tool{ padding:76px 0; }
-  .card-grid{ gap:16px; }
+  .card-grid{ gap:26px; }
   .categories-grid{ grid-template-columns:1fr 1fr; }
 }
 @media (max-width: 780px){
