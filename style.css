@@ -1258,3 +1258,20 @@ html[data-theme="light"] .social-link:not([href]):hover{ background:rgba(13,21,3
   .modal-disclaimer{ font-size:.72rem; margin:0 0 12px; }
   .service-modal-panel .btn{ width:100%; min-height:calc(48px * var(--ms)); padding:0 22px; margin-top:auto; flex-shrink:0; }
 }
+
+/* Phones: the detail modal is a centred card with air on every side (not a bottom sheet) */
+@media (max-width: 600px){
+  .service-modal{
+    align-items:center; justify-content:center;
+    padding:max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom));
+  }
+  .service-modal-panel{
+    max-width:420px; width:100%;
+    max-height:calc(100svh - 28px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    border-radius:22px;
+    transform:translateY(14px) scale(.97);
+    box-shadow:0 30px 80px -20px rgba(0,0,0,.55);
+  }
+  .service-modal.is-open .service-modal-panel{ transform:none; }
+  .service-modal-panel{ padding-bottom:calc(20px * var(--ms)); }
+}
